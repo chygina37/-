@@ -552,11 +552,42 @@ updateCountdown();
 function openModal() { document.getElementById('modal').classList.add('active'); }
 function closeModal(e) { if (e.target===document.getElementById('modal')) document.getElementById('modal').classList.remove('active'); }
 function openSiteNow(url) { window.open(url,'_blank'); }
-function showSuccess() {
+async function showSuccess() {
   const btn = document.getElementById('formSubmitBtn');
-  btn.textContent = i18n[currentLang].form_success;
-  btn.style.background = '#1a5c2e';
-  setTimeout(()=>{ btn.textContent=i18n[currentLang].form_submit; btn.style.background=''; }, 2500);
+  const email = document.getElementById('form_artist_input') ? document.getElementById('form_contact_input').value : '';
+  const artist = document.getElementById('form_artist_input').value;
+  const site = document.getElementById('form_site_select').value;
+
+  if (!email || !artist) {
+    alert(currentLang === 'ko' ? '아티스트와 연락처를 입력해주세요!' : currentLang === 'zh' ? '请填写艺人和联系方式！' : currentLang === 'zhtw' ? '請填寫藝人和聯絡方式！' : 'Please enter artist and contact!');
+    return;
+  }
+
+  btn.textContent = currentLang === 'ko' ? '등록 중...' : currentLang === 'zh' ? '登记中...' : currentLang === 'zhtw' ? '登記中...' : 'Sending...';
+  btn.style.background = '#444';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/send-alert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, artist, site })
+    });
+    const data = await res.json();
+    if (data.success) {
+      btn.textContent = i18n[currentLang].form_success;
+      btn.style.background = '#1a5c2e';
+      document.getElementById('form_artist_input').value = '';
+      document.getElementById('form_contact_input').value = '';
+      setTimeout(()=>{ btn.textContent=i18n[currentLang].form_submit; btn.style.background=''; btn.disabled=false; }, 3000);
+    } else {
+      throw new Error(data.error);
+    }
+  } catch(e) {
+    btn.textContent = '❌ 오류 발생';
+    btn.style.background = '#7f1d1d';
+    setTimeout(()=>{ btn.textContent=i18n[currentLang].form_submit; btn.style.background=''; btn.disabled=false; }, 3000);
+  }
 }
 
 const obs = new IntersectionObserver(entries=>{
