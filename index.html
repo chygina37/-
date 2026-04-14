@@ -232,6 +232,10 @@
         <label class="form-label" data-i18n="form_contact_label"></label>
         <input class="form-input" type="text" id="form_contact_input" data-i18n-ph="form_contact_placeholder">
       </div>
+      <div class="form-row" style="flex-direction:row;align-items:center;gap:10px;margin-top:4px">
+        <input type="checkbox" id="form_cancellation" style="width:16px;height:16px;cursor:pointer;accent-color:var(--accent)">
+        <label for="form_cancellation" style="font-size:13px;color:var(--text-muted);cursor:pointer" data-i18n="form_cancellation_label"></label>
+      </div>
       <button class="form-submit" id="formSubmitBtn" onclick="showSuccess()"></button>
     </div>
   </div>
@@ -284,7 +288,7 @@ const i18n = {
     hero_sub:'GD, BTS, 아이유… 극악의 티켓팅도 전략이 있으면 달라집니다. 오픈 알림부터 취소표까지, TICKR이 함께합니다.',
     hero_btn1:'지금 시작하기', hero_btn2:'기능 보기',
     cd_title:'오픈까지\n얼마나 남았나?', cd_concert_name:'GD 월드투어 서울', cd_concert_site:'인터파크 티켓 · 오픈 예정',
-    cd_days:'DAYS', cd_hours:'HOURS', cd_mins:'MINS', cd_secs:'SECS',
+    cd_days:'일', cd_hours:'시', cd_mins:'분', cd_secs:'초',
     cd_btn_alert:'🔔 오픈 알림 받기', cd_btn_open:'지금 사이트 열기 →',
     feat_title:'이런 기능들로\n성공률을 높여요',
     alert_title:'놓치면\n후회할 공연,\n알림 등록',
@@ -293,6 +297,7 @@ const i18n = {
     form_site_label:'선호 티켓 사이트',
     form_contact_label:'알림 받을 연락처', form_contact_placeholder:'이메일 또는 전화번호',
     form_submit:'🔔 알림 등록하기', form_success:'✅ 등록 완료!',
+    form_cancellation_label:'취소표 발생 시에도 알림 받기',
     form_sites:['모든 사이트','인터파크','YES24','멜론티켓','네이버','위버스샵'],
     sites_title:'사이트별\n공략 가이드', feed_title:'실시간\n성공/실패 피드',
     footer_tagline:'합법적이고 스마트한 티켓팅 도우미',
@@ -302,7 +307,7 @@ const i18n = {
     features:[
       {icon:'🔔',title:'다단계 오픈 알림',desc:'D-1, 1시간 전, 10분 전, 1분 전 — 단계별 알림으로 절대 놓치지 않게.',tag:'HOT',hot:true},
       {icon:'⏱',title:'실시간 카운트다운',desc:'정각에 맞춰 해당 티켓 구매 페이지로 원탭 이동.',tag:'기본',hot:false},
-      {icon:'🔁',title:'취소표 실시간 감지',desc:'매진 후에도 포기 금지. 취소표가 나오는 순간 즉시 알림.',tag:'HOT',hot:true},
+      {icon:'🔁',title:'취소표 실시간 감지',desc:'매진 후에도 포기 금지. 취소표가 나오는 순간 즉시 이메일 알림.',tag:'HOT',hot:true},
       {icon:'🎯',title:'좌석 선호도 설정',desc:'원하는 구역, 등급, 연석 수를 미리 저장. 조건에 맞으면 바로 표시.',tag:'편의',hot:false},
       {icon:'🤝',title:'팀 티켓팅 모집',desc:'같은 공연을 노리는 사람들과 팀 결성. 여러 명이 동시에 시도.',tag:'커뮤니티',hot:false},
       {icon:'📈',title:'공연별 난이도 지수',desc:'과거 데이터 기반으로 이 공연이 얼마나 어려운지 미리 확인.',tag:'분석',hot:false},
@@ -341,6 +346,7 @@ const i18n = {
     form_site_label:'Preferred Ticket Site',
     form_contact_label:'Your Contact', form_contact_placeholder:'Email or Phone Number',
     form_submit:'🔔 Register Alert', form_success:'✅ Registered!',
+    form_cancellation_label:'Also alert me for cancellation seats',
     form_sites:['All Sites','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'SITE-BY-SITE\nSTRATEGY GUIDE', feed_title:'LIVE\nSUCCESS / FAIL FEED',
     footer_tagline:'Smart & Legal K-pop Ticketing Assistant',
@@ -389,6 +395,7 @@ const i18n = {
     form_site_label:'偏好购票网站',
     form_contact_label:'接收提醒的联系方式', form_contact_placeholder:'邮箱或手机号',
     form_submit:'🔔 登记提醒', form_success:'✅ 登记成功！',
+    form_cancellation_label:'退票出现时也通知我',
     form_sites:['全部网站','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'各大网站\n购票攻略', feed_title:'实时\n成功/失败 动态',
     footer_tagline:'合法且智能的 K-POP 购票助手',
@@ -437,6 +444,7 @@ const i18n = {
     form_site_label:'偏好購票網站',
     form_contact_label:'接收提醒的聯絡方式', form_contact_placeholder:'電子郵件或手機號碼',
     form_submit:'🔔 登記提醒', form_success:'✅ 登記成功！',
+    form_cancellation_label:'退票出現時也通知我',
     form_sites:['全部網站','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'各大網站\n購票攻略', feed_title:'即時\n成功/失敗 動態',
     footer_tagline:'合法且智慧的 K-POP 購票助手',
@@ -549,14 +557,16 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-function openModal() { document.getElementById('modal').classList.add('active'); }
+function openModal() { document.getElementById('alert').scrollIntoView({behavior:'smooth'}); }
 function closeModal(e) { if (e.target===document.getElementById('modal')) document.getElementById('modal').classList.remove('active'); }
+function openServiceModal() { document.getElementById('modal').classList.add('active'); }
 function openSiteNow(url) { window.open(url,'_blank'); }
 async function showSuccess() {
   const btn = document.getElementById('formSubmitBtn');
-  const email = document.getElementById('form_artist_input') ? document.getElementById('form_contact_input').value : '';
+  const email = document.getElementById('form_contact_input').value;
   const artist = document.getElementById('form_artist_input').value;
   const site = document.getElementById('form_site_select').value;
+  const cancellation = document.getElementById('form_cancellation').checked;
 
   if (!email || !artist) {
     alert(currentLang === 'ko' ? '아티스트와 연락처를 입력해주세요!' : currentLang === 'zh' ? '请填写艺人和联系方式！' : currentLang === 'zhtw' ? '請填寫藝人和聯絡方式！' : 'Please enter artist and contact!');
@@ -571,7 +581,7 @@ async function showSuccess() {
     const res = await fetch('/api/send-alert', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, artist, site })
+      body: JSON.stringify({ email, artist, site, cancellation })
     });
     const data = await res.json();
     if (data.success) {
@@ -579,6 +589,7 @@ async function showSuccess() {
       btn.style.background = '#1a5c2e';
       document.getElementById('form_artist_input').value = '';
       document.getElementById('form_contact_input').value = '';
+      document.getElementById('form_cancellation').checked = false;
       setTimeout(()=>{ btn.textContent=i18n[currentLang].form_submit; btn.style.background=''; btn.disabled=false; }, 3000);
     } else {
       throw new Error(data.error);
