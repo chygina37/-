@@ -113,6 +113,21 @@
   .feed-text { font-size: 14px; line-height: 1.7; }
   .feed-meta { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
+  .community-btn {
+    display: inline-block;
+    margin-top: 32px;
+    background: var(--accent);
+    color: var(--white);
+    padding: 16px 36px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+    transition: background .2s, transform .1s;
+  }
+  .community-btn:hover { background: #e03000; transform: translateY(-1px); }
+
   footer { padding: 60px 48px 40px; border-top: 1px solid #1f1f1f; display: flex; flex-direction: column; gap: 32px; }
   .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; }
   .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: .06em; }
@@ -154,7 +169,7 @@
     <li><a href="#countdown" data-i18n="nav_countdown"></a></li>
     <li><a href="#features"  data-i18n="nav_features"></a></li>
     <li><a href="#sites"     data-i18n="nav_sites"></a></li>
-    <li><a href="#community" data-i18n="nav_community"></a></li>
+    <li><a href="reviews.html" data-i18n="nav_community"></a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -251,6 +266,7 @@
   <div class="section-label">COMMUNITY</div>
   <h2 class="section-title" data-i18n="feed_title"></h2>
   <div class="feed" id="feed"></div>
+  <a href="reviews.html" class="community-btn" data-i18n="community_btn"></a>
 </section>
 
 <footer>
@@ -300,6 +316,7 @@ const i18n = {
     form_cancellation_label:'취소표 발생 시에도 알림 받기',
     form_sites:['모든 사이트','인터파크','YES24','멜론티켓','네이버','위버스샵'],
     sites_title:'사이트별\n공략 가이드', feed_title:'실시간\n성공/실패 피드',
+    community_btn:'💜 티켓팅 후기 커뮤니티 →',
     footer_tagline:'합법적이고 스마트한 티켓팅 도우미',
     footer_about:'서비스 소개', footer_terms:'이용약관', footer_privacy:'개인정보처리방침', footer_contact_link:'문의하기',
     footer_badge:'자동화 봇 사용 안 함 · 100% 합법',
@@ -349,6 +366,7 @@ const i18n = {
     form_cancellation_label:'Also alert me for cancellation seats',
     form_sites:['All Sites','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'SITE-BY-SITE\nSTRATEGY GUIDE', feed_title:'LIVE\nSUCCESS / FAIL FEED',
+    community_btn:'💜 Go to Review Community →',
     footer_tagline:'Smart & Legal K-pop Ticketing Assistant',
     footer_about:'About', footer_terms:'Terms', footer_privacy:'Privacy Policy', footer_contact_link:'Contact',
     footer_badge:'No Bots · 100% Legal',
@@ -398,6 +416,7 @@ const i18n = {
     form_cancellation_label:'退票出现时也通知我',
     form_sites:['全部网站','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'各大网站\n购票攻略', feed_title:'实时\n成功/失败 动态',
+    community_btn:'💜 前往后记社区 →',
     footer_tagline:'合法且智能的 K-POP 购票助手',
     footer_about:'关于我们', footer_terms:'服务条款', footer_privacy:'隐私政策', footer_contact_link:'联系我们',
     footer_badge:'不使用自动化机器人 · 100% 合法',
@@ -447,6 +466,7 @@ const i18n = {
     form_cancellation_label:'退票出現時也通知我',
     form_sites:['全部網站','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'各大網站\n購票攻略', feed_title:'即時\n成功/失敗 動態',
+    community_btn:'💜 前往評價社群 →',
     footer_tagline:'合法且智慧的 K-POP 購票助手',
     footer_about:'關於我們', footer_terms:'服務條款', footer_privacy:'隱私政策', footer_contact_link:'聯絡我們',
     footer_badge:'不使用自動化機器人 · 100% 合法',
