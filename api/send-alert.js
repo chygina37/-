@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'noreply@tickr.kr',
       to: email,
       subject: `[TICKR] ${artist} 티켓 오픈 알림 등록 완료!`,
       html: `
