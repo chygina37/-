@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TICKR — 티켓팅 후기</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ff;
+      --bg2: #ede9fe;
+      --surface: #ffffff;
+      --surface2: #faf8ff;
+      --border: #ddd6fe;
+      --border2: #c4b5fd;
+      --accent: #7c3aed;
+      --accent2: #a855f7;
+      --accent3: #e9d5ff;
+      --text: #1e1b2e;
+      --text2: #4c1d95;
+      --muted: #8b7caf;
+      --success: #059669;
+      --success-bg: #d1fae5;
+      --fail: #dc2626;
+      --fail-bg: #fee2e2;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      min-height: 100vh;
+    }
+    body::before {
+      content:'';
+      position:fixed; inset:0;
+      background:
+        radial-gradient(ellipse 800px 600px at 10% 20%, rgba(167,139,250,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 400px at 85% 70%, rgba(216,180,254,0.1) 0%, transparent 70%);
+      pointer-events:none; z-index:0;
+    }
+
+    /* NAV */
+    nav {
+      position:sticky; top:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 48px; height:68px;
+      background:rgba(245,243,255,0.88);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(20px);
+    }
+    .logo { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--accent); text-decoration:none; letter-spacing:1px; }
+    .nav-links { display:flex; gap:32px; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover,.nav-links a.active { color:var(--accent); }
+    .nav-right { display:flex; gap:8px; align-items:center; }
+    .lang-btn { background:none; border:1px solid var(--border2); color:var(--muted); padding:4px 10px; font-size:12px; border-radius:20px; cursor:pointer; font-family:'Noto Sans KR',sans-serif; transition:all 0.2s; }
+    .lang-btn.active { background:var(--accent); border-color:var(--accent); color:white; }
+    .lang-btn:hover:not(.active) { border-color:var(--accent); color:var(--accent); }
+    .btn-start { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; border:none; padding:9px 20px; font-size:13px; font-weight:700; border-radius:24px; cursor:pointer; font-family:'Noto Sans KR',sans-serif; box-shadow:0 4px 14px rgba(124,58,237,0.3); transition:all 0.2s; }
+    .btn-start:hover { box-shadow:0 6px 20px rgba(124,58,237,0.45); transform:translateY(-1px); }
+
+    /* HERO */
+    .hero { position:relative; z-index:1; padding:64px 48px 48px; border-bottom:1px solid var(--border); }
+    .hero-tag { display:inline-flex; align-items:center; gap:6px; background:var(--accent3); color:var(--accent); font-size:11px; font-weight:700; letter-spacing:2px; padding:6px 14px; border-radius:20px; margin-bottom:24px; text-transform:uppercase; }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(42px,7vw,80px); line-height:1.05; margin-bottom:20px; color:var(--text); }
+    .hero h1 em { font-style:italic; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero p { color:var(--muted); font-size:15px; max-width:480px; line-height:1.7; }
+    .hero-stats { display:flex; gap:48px; margin-top:36px; }
+    .stat-item { display:flex; flex-direction:column; gap:4px; }
+    .stat-num { font-family:'Playfair Display',serif; font-size:36px; font-weight:700; color:var(--accent); }
+    .stat-label { font-size:12px; color:var(--muted); font-weight:500; }
+
+    /* MAIN */
+    .main { position:relative; z-index:1; display:grid; grid-template-columns:1fr 380px; max-width:1400px; margin:0 auto; }
+    .reviews-section { border-right:1px solid var(--border); }
+    .section-header { display:flex; align-items:center; justify-content:space-between; padding:28px 48px; border-bottom:1px solid var(--border); }
+    .section-title { font-family:'Playfair Display',serif; font-size:20px; color:var(--text2); }
+    .filter-tabs { display:flex; gap:6px; }
+    .filter-tab { background:none; border:1px solid var(--border2); color:var(--muted); padding:6px 16px; font-size:12px; font-weight:700; border-radius:20px; cursor:pointer; font-family:'Noto Sans KR',sans-serif; transition:all 0.2s; }
+    .filter-tab.active { background:var(--accent); border-color:var(--accent); color:white; }
+    .filter-tab:hover:not(.active) { border-color:var(--accent); color:var(--accent); }
+
+    /* REVIEW CARD */
+    .review-card { padding:32px 48px; border-bottom:1px solid var(--border); transition:background 0.2s; cursor:pointer; animation:fadeUp 0.4s ease both; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    .review-card:hover { background:rgba(255,255,255,0.7); }
+    .card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .card-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .badge { font-size:10px; font-weight:700; padding:4px 10px; border-radius:20px; }
+    .badge-success { background:var(--success-bg); color:var(--success); }
+    .badge-fail { background:var(--fail-bg); color:var(--fail); }
+    .badge-site { background:var(--accent3); color:var(--accent); }
+    .stars { color:var(--accent2); font-size:13px; letter-spacing:1px; }
+    .card-title { font-size:17px; font-weight:700; margin-bottom:8px; color:var(--text); line-height:1.4; }
+    .card-content { color:var(--muted); font-size:14px; line-height:1.7; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .card-tips { margin-top:14px; padding:12px 16px; background:linear-gradient(135deg,rgba(233,213,255,0.5),rgba(196,181,253,0.2)); border-left:3px solid var(--accent2); border-radius:0 8px 8px 0; font-size:13px; color:var(--text2); line-height:1.6; }
+    .card-tips strong { color:var(--accent); }
+    .card-bottom { display:flex; align-items:center; justify-content:space-between; margin-top:16px; }
+    .card-author { display:flex; align-items:center; gap:10px; }
+    .avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:white; }
+    .author-name { font-size:13px; color:var(--text2); font-weight:500; }
+    .author-date { font-size:11px; color:var(--muted); margin-top:1px; }
+    .like-btn { background:white; border:1px solid var(--border2); color:var(--muted); padding:6px 14px; font-size:12px; border-radius:20px; cursor:pointer; display:flex; align-items:center; gap:5px; font-family:'Noto Sans KR',sans-serif; transition:all 0.2s; box-shadow:0 2px 6px rgba(124,58,237,0.06); }
+    .like-btn:hover,.like-btn.liked { border-color:var(--accent2); color:var(--accent); background:var(--accent3); }
+
+    .loading-state,.empty-state { padding:80px 48px; text-align:center; color:var(--muted); }
+    .loading-spinner { width:32px; height:32px; border:2px solid var(--border2); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 16px; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* FORM */
+    .form-panel { padding:36px 32px; position:sticky; top:68px; height:calc(100vh - 68px); overflow-y:auto; background:var(--surface2); }
+    .form-panel::-webkit-scrollbar { width:4px; }
+    .form-panel::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+    .form-title { font-family:'Playfair Display',serif; font-size:24px; color:var(--text2); margin-bottom:4px; }
+    .form-subtitle { color:var(--muted); font-size:13px; margin-bottom:28px; line-height:1.5; }
+    .form-group { margin-bottom:18px; }
+    .form-label { display:block; font-size:11px; font-weight:700; letter-spacing:1px; color:var(--accent); text-transform:uppercase; margin-bottom:7px; }
+    .form-input,.form-select,.form-textarea { width:100%; background:white; border:1px solid var(--border2); color:var(--text); padding:11px 14px; font-size:14px; border-radius:10px; font-family:'Noto Sans KR',sans-serif; transition:all 0.2s; outline:none; box-shadow:0 2px 6px rgba(124,58,237,0.04); }
+    .form-input:focus,.form-select:focus,.form-textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(124,58,237,0.1); }
+    .form-input::placeholder,.form-textarea::placeholder { color:#c4b5fd; }
+    .form-select { cursor:pointer; }
+    .form-textarea { resize:vertical; min-height:90px; line-height:1.6; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .toggle-group { display:flex; gap:8px; }
+    .toggle-btn { flex:1; padding:10px; font-size:13px; font-weight:700; border-radius:10px; cursor:pointer; border:1px solid var(--border2); background:white; color:var(--muted); font-family:'Noto Sans KR',sans-serif; transition:all 0.2s; }
+    .toggle-btn.success.active { background:var(--success-bg); border-color:var(--success); color:var(--success); }
+    .toggle-btn.fail.active { background:var(--fail-bg); border-color:var(--fail); color:var(--fail); }
+    .star-rating { display:flex; gap:6px; }
+    .star { font-size:24px; cursor:pointer; color:var(--border2); transition:all 0.15s; user-select:none; }
+    .star.active { color:var(--accent2); text-shadow:0 0 8px rgba(168,85,247,0.4); }
+    .star:hover { transform:scale(1.15); }
+    .form-divider { height:1px; background:var(--border); margin:20px 0; }
+    .submit-btn { width:100%; padding:14px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; border:none; font-size:15px; font-weight:700; border-radius:12px; cursor:pointer; font-family:'Noto Sans KR',sans-serif; margin-top:8px; box-shadow:0 6px 20px rgba(124,58,237,0.3); transition:all 0.2s; }
+    .submit-btn:hover { box-shadow:0 8px 28px rgba(124,58,237,0.45); transform:translateY(-1px); }
+    .submit-btn:active { transform:scale(0.98); }
+    .submit-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+    .form-notice { font-size:11px; color:var(--muted); margin-top:12px; line-height:1.6; text-align:center; }
+
+    /* TOAST */
+    .toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(80px); background:white; border:1px solid var(--border2); color:var(--text); padding:14px 28px; border-radius:50px; font-size:14px; font-weight:600; z-index:999; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); box-shadow:0 8px 32px rgba(124,58,237,0.15); white-space:nowrap; }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+    .toast.success { border-color:var(--success); color:var(--success); }
+    .toast.error { border-color:var(--fail); color:var(--fail); }
+
+    @media(max-width:900px) {
+      .main { grid-template-columns:1fr; }
+      .form-panel { position:static; height:auto; border-top:1px solid var(--border); }
+      .reviews-section { border-right:none; }
+      nav { padding:0 20px; }
+      .nav-links { display:none; }
+      .hero { padding:40px 20px; }
+      .hero-stats { gap:24px; }
+      .review-card { padding:24px 20px; }
+      .section-header { padding:20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">TICKR</a>
+  <div class="nav-links">
+    <a href="/#countdown" data-i18n="nav_countdown">카운트다운</a>
+    <a href="/#features" data-i18n="nav_features">기능</a>
+    <a href="/#guide" data-i18n="nav_guide">사이트 공략</a>
+    <a href="/reviews.html" class="active" data-i18n="nav_community">커뮤니티</a>
+  </div>
+  <div class="nav-right">
+    <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('zh-CN')">简体</button>
+    <button class="lang-btn" onclick="setLang('zh-TW')">繁體</button>
+    <button class="btn-start" onclick="location.href='/'" data-i18n="nav_free">무료 시작</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">✨ <span data-i18n="hero_tag">티켓팅 후기</span></div>
+  <h1 data-i18n-html="hero_title">Real<br><em>Stories,</em><br>Real Wins</h1>
+  <p data-i18n="hero_desc">실제로 성공한 팬들의 티켓팅 전략과 꿀팁. 다음 티켓팅은 당신이 주인공.</p>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num" id="totalCount">—</span><span class="stat-label" data-i18n="stat_reviews">후기</span></div>
+    <div class="stat-item"><span class="stat-num" id="successRate">—</span><span class="stat-label" data-i18n="stat_success">성공률</span></div>
+    <div class="stat-item"><span class="stat-num" id="artistCount">—</span><span class="stat-label" data-i18n="stat_artists">아티스트</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="reviews-section">
+    <div class="section-header">
+      <span class="section-title" data-i18n="section_latest">최신 후기</span>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterReviews('all',event)" data-i18n="filter_all">전체</button>
+        <button class="filter-tab" onclick="filterReviews('success',event)" data-i18n="filter_success">성공</button>
+        <button class="filter-tab" onclick="filterReviews('fail',event)" data-i18n="filter_fail">실패</button>
+      </div>
+    </div>
+    <div id="reviewList">
+      <div class="loading-state"><div class="loading-spinner"></div><p>후기를 불러오는 중...</p></div>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="form-title" data-i18n="form_title">후기 작성</div>
+    <div class="form-subtitle" data-i18n="form_subtitle">당신의 티켓팅 경험을 나눠주세요 💜</div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="label_artist">아티스트 *</label>
+      <input class="form-input" id="artistName" placeholder="예: BTS, aespa, IVE" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="label_concert">공연명 *</label>
+      <input class="form-input" id="concertName" placeholder="예: WORLD TOUR 2025 SEOUL" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" data-i18n="label_site">사이트 *</label>
+        <select class="form-select" id="ticketingSite">
+          <option value="">선택</option>
+          <option value="melon">멜론티켓</option>
+          <option value="interpark">인터파크</option>
+          <option value="yes24">YES24</option>
+          <option value="coupang">쿠팡플레이</option>
+          <option value="ticketlink">티켓링크</option>
+          <option value="other">기타</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="label_seat">좌석 등급</label>
+        <input class="form-input" id="seatGrade" placeholder="예: VIP, R석" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="label_result">결과 *</label>
+      <div class="toggle-group">
+        <button class="toggle-btn success active" onclick="setSuccess(true)" data-i18n="result_success">✅ 성공</button>
+        <button class="toggle-btn fail" onclick="setSuccess(false)" data-i18n="result_fail">❌ 실패</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="label_rating">평점 *</label>
+      <div class="star-rating">
+        <span class="star active" onclick="setRating(1)">★</span>
+        <span class="star active" onclick="setRating(2)">★</span>
+        <span class="star active" onclick="setRating(3)">★</span>
+        <span class="star" onclick="setRating(4)">★</span>
+        <span class="star" onclick="setRating(5)">★</span>
+      </div>
+    </div>
+    <div class="form-divider"></div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="label_title">제목 *</label>
+      <input class="form-input" id="reviewTitle" placeholder="한 줄로 요약해주세요" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="label_content">후기 내용 *</label>
+      <textarea class="form-textarea" id="reviewContent" rows="4" placeholder="티켓팅 경험을 자세히 적어주세요"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="label_tips">💡 꿀팁 (선택)</label>
+      <textarea class="form-textarea" id="reviewTips" rows="2" placeholder="다음 사람에게 전하고 싶은 팁이 있다면?"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="label_nickname">닉네임 *</label>
+      <input class="form-input" id="nickname" placeholder="예: 아미_서울" />
+    </div>
+    <button class="submit-btn" onclick="submitReview()" data-i18n="btn_submit">후기 등록하기 ✨</button>
+    <p class="form-notice" data-i18n="form_notice">등록된 후기는 관리자 검토 후 공개됩니다</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL='https://tugudltjvkmlsnxsxfxk.supabase.co';
+const SUPABASE_KEY='sb_publishable_jyrfna8HsUOO8bMOB2hVag_JFN6AbLb';
+let currentLang='ko', successState=true, rating=3, currentFilter='all', reviews=[];
+
+const i18n={
+  ko:{nav_countdown:'카운트다운',nav_features:'기능',nav_guide:'사이트 공략',nav_community:'커뮤니티',nav_free:'무료 시작',hero_tag:'티켓팅 후기',hero_title:'Real<br><em>Stories,</em><br>Real Wins',hero_desc:'실제로 성공한 팬들의 티켓팅 전략과 꿀팁. 다음 티켓팅은 당신이 주인공.',stat_reviews:'후기',stat_success:'성공률',stat_artists:'아티스트',section_latest:'최신 후기',filter_all:'전체',filter_success:'성공',filter_fail:'실패',form_title:'후기 작성',form_subtitle:'당신의 티켓팅 경험을 나눠주세요 💜',label_artist:'아티스트 *',label_concert:'공연명 *',label_site:'사이트 *',label_seat:'좌석 등급',label_result:'결과 *',label_rating:'평점 *',label_title:'제목 *',label_content:'후기 내용 *',label_tips:'💡 꿀팁 (선택)',label_nickname:'닉네임 *',result_success:'✅ 성공',result_fail:'❌ 실패',btn_submit:'후기 등록하기 ✨',form_notice:'등록된 후기는 관리자 검토 후 공개됩니다',loading:'후기를 불러오는 중...',empty:'아직 후기가 없어요. 첫 번째 후기를 남겨보세요! 💜',toast_ok:'💜 후기가 등록됐어요! 검토 후 공개됩니다.',toast_err:'필수 항목을 모두 입력해주세요.',toast_server_err:'서버 오류가 발생했어요.'},
+  en:{nav_countdown:'Countdown',nav_features:'Features',nav_guide:'Guide',nav_community:'Community',nav_free:'Start Free',hero_tag:'Ticketing Reviews',hero_title:'Real<br><em>Stories,</em><br>Real Wins',hero_desc:'Real strategies from fans who succeeded. Your turn next.',stat_reviews:'Reviews',stat_success:'Success Rate',stat_artists:'Artists',section_latest:'Latest Reviews',filter_all:'All',filter_success:'Success',filter_fail:'Fail',form_title:'Write Review',form_subtitle:'Share your ticketing experience 💜',label_artist:'Artist *',label_concert:'Concert *',label_site:'Site *',label_seat:'Seat Grade',label_result:'Result *',label_rating:'Rating *',label_title:'Title *',label_content:'Review *',label_tips:'💡 Tips (optional)',label_nickname:'Nickname *',result_success:'✅ Success',result_fail:'❌ Failed',btn_submit:'Submit Review ✨',form_notice:'Reviews published after admin approval',loading:'Loading...',empty:'No reviews yet. Be the first! 💜',toast_ok:'💜 Submitted! Will be published after review.',toast_err:'Please fill in all required fields.',toast_server_err:'Server error. Please try again.'},
+  'zh-CN':{nav_countdown:'倒计时',nav_features:'功能',nav_guide:'购票攻略',nav_community:'社区',nav_free:'免费开始',hero_tag:'购票评价',hero_title:'Real<br><em>Stories,</em><br>Real Wins',hero_desc:'来自成功抢票粉丝的真实策略，下次就是你。',stat_reviews:'评价',stat_success:'成功率',stat_artists:'艺人',section_latest:'最新评价',filter_all:'全部',filter_success:'成功',filter_fail:'失败',form_title:'写评价',form_subtitle:'分享你的抢票经历 💜',label_artist:'艺人 *',label_concert:'演出名称 *',label_site:'平台 *',label_seat:'座位等级',label_result:'结果 *',label_rating:'评分 *',label_title:'标题 *',label_content:'评价内容 *',label_tips:'💡 小技巧（可选）',label_nickname:'昵称 *',result_success:'✅ 成功',result_fail:'❌ 失败',btn_submit:'提交评价 ✨',form_notice:'评价经管理员审核后公开',loading:'加载中...',empty:'还没有评价！💜',toast_ok:'💜 已提交！审核后公开。',toast_err:'请填写所有必填项。',toast_server_err:'服务器错误，请重试。'},
+  'zh-TW':{nav_countdown:'倒數計時',nav_features:'功能',nav_guide:'購票攻略',nav_community:'社群',nav_free:'免費開始',hero_tag:'購票評價',hero_title:'Real<br><em>Stories,</em><br>Real Wins',hero_desc:'來自成功搶票粉絲的真實策略，下次就是你。',stat_reviews:'評價',stat_success:'成功率',stat_artists:'藝人',section_latest:'最新評價',filter_all:'全部',filter_success:'成功',filter_fail:'失敗',form_title:'寫評價',form_subtitle:'分享你的搶票經歷 💜',label_artist:'藝人 *',label_concert:'演出名稱 *',label_site:'平台 *',label_seat:'座位等級',label_result:'結果 *',label_rating:'評分 *',label_title:'標題 *',label_content:'評價內容 *',label_tips:'💡 小技巧（可選）',label_nickname:'暱稱 *',result_success:'✅ 成功',result_fail:'❌ 失敗',btn_submit:'提交評價 ✨',form_notice:'評價經管理員審核後公開',loading:'載入中...',empty:'還沒有評價！💜',toast_ok:'💜 已提交！審核後公開。',toast_err:'請填寫所有必填項。',toast_server_err:'伺服器錯誤，請重試。'}
+};
+
+function t(k){return i18n[currentLang]?.[k]||i18n.ko[k]||k;}
+function setLang(lang){
+  currentLang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.getAttribute('data-i18n')));
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>el.innerHTML=t(el.getAttribute('data-i18n-html')));
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.includes(lang==='ko'?'한국어':lang==='en'?'EN':lang==='zh-CN'?'简体':'繁體')));
+  renderReviews();
+}
+function setSuccess(val){successState=val;document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));document.querySelector(`.toggle-btn.${val?'success':'fail'}`).classList.add('active');}
+function setRating(val){rating=val;document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<val));}
+function starsHtml(n){return'★'.repeat(n)+'☆'.repeat(5-n);}
+const siteLabels={melon:'멜론',interpark:'인터파크',yes24:'YES24',coupang:'쿠팡',ticketlink:'티켓링크',other:'기타'};
+
+async function loadReviews(){
+  document.getElementById('reviewList').innerHTML=`<div class="loading-state"><div class="loading-spinner"></div><p>${t('loading')}</p></div>`;
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/reviews?is_approved=eq.true&order=created_at.desc`,{headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}});
+    reviews=await res.json();
+    updateStats(); renderReviews();
+  }catch(e){document.getElementById('reviewList').innerHTML=`<div class="empty-state"><p>${t('empty')}</p></div>`;}
+}
+function updateStats(){
+  document.getElementById('totalCount').textContent=reviews.length;
+  const rate=reviews.length?Math.round(reviews.filter(r=>r.success).length/reviews.length*100):0;
+  document.getElementById('successRate').textContent=rate+'%';
+  document.getElementById('artistCount').textContent=new Set(reviews.map(r=>r.artist_name)).size;
+}
+function filterReviews(type,e){
+  currentFilter=type;
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  if(e)e.target.classList.add('active');
+  renderReviews();
+}
+function renderReviews(){
+  let list=reviews;
+  if(currentFilter==='success')list=list.filter(r=>r.success);
+  if(currentFilter==='fail')list=list.filter(r=>!r.success);
+  if(!list.length){document.getElementById('reviewList').innerHTML=`<div class="empty-state"><p>${t('empty')}</p></div>`;return;}
+  document.getElementById('reviewList').innerHTML=list.map((r,i)=>`
+    <div class="review-card" style="animation-delay:${i*0.05}s">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="badge ${r.success?'badge-success':'badge-fail'}">${r.success?t('filter_success'):t('filter_fail')}</span>
+          <span class="badge badge-site">${siteLabels[r.ticketing_site]||r.ticketing_site}</span>
+          ${r.seat_grade?`<span style="font-size:12px;color:var(--muted)">${esc(r.seat_grade)}</span>`:''}
+        </div>
+        <span class="stars">${starsHtml(r.rating||3)}</span>
+      </div>
+      <div class="card-title">${esc(r.title)}</div>
+      <div class="card-content">${esc(r.content)}</div>
+      ${r.tips?`<div class="card-tips"><strong>💡 TIP</strong> &nbsp;${esc(r.tips)}</div>`:''}
+      <div class="card-bottom">
+        <div class="card-author">
+          <div class="avatar">${(r.nickname||'?')[0].toUpperCase()}</div>
+          <div><div class="author-name">${esc(r.nickname)} · ${esc(r.artist_name)}</div><div class="author-date">${fmtDate(r.created_at)}</div></div>
+        </div>
+        <button class="like-btn${localStorage.getItem('liked_'+r.id)?' liked':''}" onclick="toggleLike('${r.id}',this)">
+          ${localStorage.getItem('liked_'+r.id)?'❤️':'🤍'} ${r.likes||0}
+        </button>
+      </div>
+    </div>`).join('');
+}
+async function toggleLike(id,btn){
+  if(localStorage.getItem('liked_'+id)){showToast('이미 좋아요를 눌렀어요!','error');return;}
+  const fp=await getFP();
+  await fetch(`${SUPABASE_URL}/rest/v1/review_likes`,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({review_id:id,fingerprint:fp})});
+  const r=reviews.find(x=>x.id===id);
+  if(r){r.likes=(r.likes||0)+1;await fetch(`${SUPABASE_URL}/rest/v1/reviews?id=eq.${id}`,{method:'PATCH',headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({likes:r.likes})});localStorage.setItem('liked_'+id,'1');btn.classList.add('liked');btn.innerHTML=`❤️ ${r.likes}`;}
+}
+async function getFP(){let fp=localStorage.getItem('tickr_fp');if(!fp){fp=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('tickr_fp',fp);}return fp;}
+async function submitReview(){
+  const artist=document.getElementById('artistName').value.trim();
+  const concert=document.getElementById('concertName').value.trim();
+  const site=document.getElementById('ticketingSite').value;
+  const title=document.getElementById('reviewTitle').value.trim();
+  const content=document.getElementById('reviewContent').value.trim();
+  const nick=document.getElementById('nickname').value.trim();
+  if(!artist||!concert||!site||!title||!content||!nick){showToast(t('toast_err'),'error');return;}
+  const btn=document.querySelector('.submit-btn');
+  btn.disabled=true;btn.textContent='등록 중...';
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/reviews`,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({artist_name:artist,concert_name:concert,ticketing_site:site,seat_grade:document.getElementById('seatGrade').value.trim()||null,success:successState,rating,title,content,tips:document.getElementById('reviewTips').value.trim()||null,nickname:nick,language:currentLang,is_approved:false})});
+    if(res.ok){showToast(t('toast_ok'),'success');['artistName','concertName','seatGrade','reviewTitle','reviewContent','reviewTips','nickname'].forEach(id=>document.getElementById(id).value='');document.getElementById('ticketingSite').value='';setSuccess(true);setRating(3);}
+    else showToast(t('toast_server_err'),'error');
+  }catch(e){showToast(t('toast_server_err'),'error');}
+  btn.disabled=false;btn.textContent=t('btn_submit');
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtDate(iso){if(!iso)return'';const d=new Date(iso);return`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;}
+let toastTimer;
+function showToast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show '+type;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3000);}
+loadReviews();
+</script>
+</body>
+</html>
