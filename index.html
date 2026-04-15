@@ -271,10 +271,6 @@
         <label class="form-label" data-i18n="form_contact_label"></label>
         <input class="form-input" type="text" id="form_contact_input" data-i18n-ph="form_contact_placeholder">
       </div>
-      <div class="form-row" style="flex-direction:row;align-items:center;gap:10px;margin-top:4px">
-        <input type="checkbox" id="form_cancellation" style="width:16px;height:16px;cursor:pointer;accent-color:var(--accent)">
-        <label for="form_cancellation" style="font-size:13px;color:var(--muted);cursor:pointer" data-i18n="form_cancellation_label"></label>
-      </div>
       <button class="form-submit" id="formSubmitBtn" onclick="showSuccess()"></button>
     </div>
   </div>
@@ -608,7 +604,6 @@ async function showSuccess() {
   const email = document.getElementById('form_contact_input').value;
   const artist = document.getElementById('form_artist_input').value;
   const site = document.getElementById('form_site_select').value;
-  const cancellation = document.getElementById('form_cancellation').checked;
   if (!email || !artist) {
     alert(currentLang==='ko'?'아티스트와 연락처를 입력해주세요!':currentLang==='zh'?'请填写艺人和联系方式！':currentLang==='zhtw'?'請填寫藝人和聯絡方式！':'Please enter artist and contact!');
     return;
@@ -618,7 +613,7 @@ async function showSuccess() {
   try {
     const res = await fetch('/api/send-alert', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ email, artist, site, cancellation })
+      body: JSON.stringify({ email, artist, site })
     });
     const data = await res.json();
     if (data.success) {
@@ -626,7 +621,6 @@ async function showSuccess() {
       btn.style.background = '#166534';
       document.getElementById('form_artist_input').value = '';
       document.getElementById('form_contact_input').value = '';
-      document.getElementById('form_cancellation').checked = false;
       setTimeout(()=>{ btn.textContent=i18n[currentLang].form_submit; btn.style.background=''; btn.disabled=false; }, 3000);
     } else { throw new Error(data.error); }
   } catch(e) {
