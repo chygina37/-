@@ -7,20 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f8f7f5;
-    --bg2: #f0eeeb;
-    --surface: #ffffff;
-    --border: #e5e2dd;
-    --border2: #d4d0ca;
-    --accent: #ff3c00;
-    --accent2: #ffcc00;
-    --accent-light: rgba(255,60,0,0.08);
-    --text: #1a1814;
-    --text2: #3d3a35;
-    --muted: #8a8680;
-    --card-bg: #ffffff;
-    --gray: #f2f0ec;
-    --gray2: #e8e5e0;
+    --bg: #f8f7f5; --bg2: #f0eeeb; --surface: #ffffff; --border: #e5e2dd; --border2: #d4d0ca;
+    --accent: #ff3c00; --accent2: #ffcc00; --accent-light: rgba(255,60,0,0.08);
+    --text: #1a1814; --text2: #3d3a35; --muted: #8a8680; --card-bg: #ffffff;
+    --gray: #f2f0ec; --gray2: #e8e5e0;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -34,34 +24,29 @@
   .lang-btn:hover { border-color: var(--text2); color: var(--text); }
   .lang-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
 
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background: rgba(248,247,245,.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); gap: 16px; }
-  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: .08em; color: var(--text); flex-shrink: 0; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 60px; background: rgba(248,247,245,.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); gap: 12px; }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: .08em; color: var(--text); flex-shrink: 0; }
   .logo span { color: var(--accent); }
-  .nav-links { display: flex; gap: 14px; list-style: none; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 11px; transition: color .2s; font-weight: 400; }
+  .nav-links { display: flex; gap: 18px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; transition: color .2s; font-weight: 400; white-space: nowrap; }
   .nav-links a:hover { color: var(--text); }
-  .nav-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
-  .nav-cta { background: var(--accent); color: #fff; border: none; padding: 10px 22px; font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background .2s; white-space: nowrap; }
+  .nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .nav-cta { background: var(--accent); color: #fff; border: none; padding: 8px 18px; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition: background .2s; white-space: nowrap; }
   .nav-cta:hover { background: #e03000; }
 
   /* HERO */
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 48px 80px; position: relative; overflow: hidden; }
-  .hero-bg { position: absolute; inset: 0; z-index: 0;
-    background:
-      radial-gradient(ellipse 70% 60% at 75% 40%, rgba(255,60,0,0.07) 0%, transparent 65%),
-      radial-gradient(ellipse 50% 40% at 15% 70%, rgba(255,204,0,0.05) 0%, transparent 60%); }
-  .hero-grid { position: absolute; inset: 0; z-index: 0; opacity: .035;
-    background-image: linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px);
-    background-size: 60px 60px; }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 100px 48px 80px; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 70% 60% at 75% 40%, rgba(255,60,0,0.07) 0%, transparent 65%), radial-gradient(ellipse 50% 40% at 15% 70%, rgba(255,204,0,0.05) 0%, transparent 60%); }
+  .hero-grid { position: absolute; inset: 0; z-index: 0; opacity: .035; background-image: linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px); background-size: 60px 60px; }
   .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
   .hero-content { max-width: 600px; }
-  .hero-right { animation: fadeUp .6s .3s ease both; }
   .hero-tag { display: inline-block; border: 1px solid var(--accent); color: var(--accent); font-size: 11px; letter-spacing: .2em; padding: 5px 14px; margin-bottom: 28px; animation: fadeUp .6s ease both; background: var(--accent-light); }
   .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px,9vw,130px); line-height: .92; letter-spacing: .02em; animation: fadeUp .6s .1s ease both; }
   .hero-title .outline { -webkit-text-stroke: 2px var(--text); color: transparent; }
   .hero-title .fill { color: var(--accent); }
-  .hero-sub { margin-top: 32px; font-size: 16px; line-height: 1.8; color: var(--muted); max-width: 500px; animation: fadeUp .6s .2s ease both; }
+  .hero-sub { margin-top: 32px; font-size: 15px; line-height: 1.8; color: var(--muted); max-width: 500px; animation: fadeUp .6s .2s ease both; }
   .hero-btns { margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp .6s .3s ease both; }
+  .hero-right { animation: fadeUp .6s .3s ease both; }
   .btn-primary { background: var(--accent); color: #fff; border: none; padding: 16px 36px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background .2s,transform .1s; }
   .btn-primary:hover { background: #e03000; transform: translateY(-1px); }
   .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border2); padding: 16px 36px; font-family: inherit; font-size: 14px; font-weight: 400; cursor: pointer; transition: border-color .2s,transform .1s; }
@@ -75,7 +60,6 @@
   .section-label { font-size: 11px; letter-spacing: .2em; color: var(--accent); margin-bottom: 16px; font-weight: 500; }
   .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,6vw,72px); line-height: 1; margin-bottom: 48px; color: var(--text); }
 
-  /* COUNTDOWN */
   .countdown-card { background: var(--surface); border: 1px solid var(--border); padding: 40px; max-width: 700px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
   .concert-info { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; }
   .concert-badge { background: var(--accent); color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: .1em; padding: 6px 14px; clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); }
@@ -92,17 +76,16 @@
   .cd-btn.secondary { background: transparent; color: var(--text); border: 1.5px solid var(--border2); }
   .cd-btn.secondary:hover { border-color: var(--text); }
 
-  /* FEATURES */
   .features-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-  .feature-card { background: var(--surface); padding: 36px 32px; transition: background .2s, box-shadow .2s; cursor: pointer; }
+  .feature-card { background: var(--surface); padding: 36px 32px; transition: background .2s; cursor: pointer; }
   .feature-card:hover { background: var(--gray); }
   .feature-icon { font-size: 28px; margin-bottom: 20px; display: block; }
   .feature-title { font-size: 16px; font-weight: 500; margin-bottom: 10px; color: var(--text); }
   .feature-desc { font-size: 13px; line-height: 1.8; color: var(--muted); }
   .feature-tag { display: inline-block; margin-top: 14px; font-size: 10px; letter-spacing: .12em; padding: 3px 10px; border: 1px solid var(--border2); color: var(--muted); }
   .feature-tag.hot { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .feature-link { display: block; margin-top: 10px; font-size: 12px; color: var(--accent); font-weight: 500; }
 
-  /* ALERT */
   .alert-section { background: var(--gray); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
   .alert-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 100px 48px; }
   .alert-form { display: flex; flex-direction: column; gap: 14px; }
@@ -115,7 +98,6 @@
   .form-submit { background: var(--accent); color: #fff; border: none; padding: 16px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 6px; transition: background .2s; }
   .form-submit:hover { background: #e03000; }
 
-  /* SITES */
   .sites-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 12px; margin-top: 48px; }
   .site-card { background: var(--surface); border: 1px solid var(--border); padding: 24px 20px; display: flex; flex-direction: column; gap: 10px; cursor: pointer; transition: border-color .2s, box-shadow .2s; }
   .site-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(255,60,0,0.08); }
@@ -128,7 +110,6 @@
   .site-open-btn { margin-top: auto; background: transparent; border: 1px solid var(--border2); color: var(--muted); padding: 8px; font-size: 12px; cursor: pointer; font-family: inherit; transition: .2s; }
   .site-open-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* COMMUNITY FEED */
   .feed { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); max-width: 700px; }
   .feed-item { background: var(--surface); padding: 20px 24px; display: flex; align-items: flex-start; gap: 16px; }
   .feed-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
@@ -138,17 +119,9 @@
   .feed-text { font-size: 14px; line-height: 1.7; color: var(--text2); }
   .feed-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-  .community-btn {
-    display: inline-block; margin-top: 32px;
-    background: var(--accent); color: #fff;
-    padding: 16px 36px; font-family: inherit; font-size: 14px; font-weight: 500;
-    text-decoration: none;
-    clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
-    transition: background .2s, transform .1s;
-  }
+  .community-btn { display: inline-block; margin-top: 32px; background: var(--accent); color: #fff; padding: 16px 36px; font-family: inherit; font-size: 14px; font-weight: 500; text-decoration: none; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition: background .2s, transform .1s; }
   .community-btn:hover { background: #e03000; transform: translateY(-1px); }
 
-  /* FOOTER */
   footer { padding: 60px 48px 40px; border-top: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; gap: 32px; }
   .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; }
   .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: .06em; color: var(--text); }
@@ -161,7 +134,6 @@
   .footer-copy { font-size: 12px; color: var(--muted); }
   .footer-badge { font-size: 11px; letter-spacing: .06em; color: var(--muted); border: 1px solid var(--border2); padding: 4px 12px; }
 
-  /* MODAL */
   .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.4); align-items: center; justify-content: center; }
   .modal-overlay.active { display: flex; }
   .modal { background: var(--surface); border: 1px solid var(--border); padding: 40px; max-width: 480px; width: 90%; animation: fadeUp .3s ease; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
@@ -173,12 +145,14 @@
   @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
   @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-  @media (max-width: 768px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
     .hero-right { display: none; }
-    nav { padding: 14px 20px; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 16px; }
     .nav-links { display: none; }
-    .hero { padding: 100px 20px 80px; }
+    .hero { padding: 80px 20px 80px; }
     .section { padding: 60px 20px; }
     .alert-inner { grid-template-columns: 1fr; gap: 40px; padding: 60px 20px; }
     footer { padding: 40px 20px 32px; }
@@ -203,9 +177,9 @@
   <div class="nav-right">
     <div class="lang-switcher">
       <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
-      <button class="lang-btn"        onclick="setLang('en')">EN</button>
-      <button class="lang-btn"        onclick="setLang('zh')">简体</button>
-      <button class="lang-btn"        onclick="setLang('zhtw')">繁體</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('zh')">简体</button>
+      <button class="lang-btn" onclick="setLang('zhtw')">繁體</button>
     </div>
     <button class="nav-cta" onclick="openModal()" data-i18n="nav_cta"></button>
   </div>
@@ -225,23 +199,23 @@
       </div>
     </div>
     <div class="hero-right">
-      <div class="countdown-card" style="max-width:100%;">
+      <div class="countdown-card" style="max-width:100%">
         <div class="concert-info">
           <div class="concert-badge">D-DAY</div>
           <div>
-            <div class="concert-name" id="hero_concert_name">GD 월드투어 서울</div>
-            <div class="concert-site" id="hero_concert_site">인터파크 티켓 · 오픈 예정</div>
+            <div class="concert-name" data-i18n="cd_concert_name"></div>
+            <div class="concert-site" data-i18n="cd_concert_site"></div>
           </div>
         </div>
         <div class="countdown-display">
-          <div class="cd-block"><div class="cd-num" id="cd-days2">00</div><div class="cd-label" id="hero_days">일</div></div>
-          <div class="cd-block"><div class="cd-num" id="cd-hours2">00</div><div class="cd-label" id="hero_hours">시</div></div>
-          <div class="cd-block"><div class="cd-num" id="cd-mins2">00</div><div class="cd-label" id="hero_mins">분</div></div>
-          <div class="cd-block"><div class="cd-num" id="cd-secs2" style="color:var(--accent2)">00</div><div class="cd-label" id="hero_secs">초</div></div>
+          <div class="cd-block"><div class="cd-num" id="cd-days">00</div><div class="cd-label" data-i18n="cd_days"></div></div>
+          <div class="cd-block"><div class="cd-num" id="cd-hours">00</div><div class="cd-label" data-i18n="cd_hours"></div></div>
+          <div class="cd-block"><div class="cd-num" id="cd-mins">00</div><div class="cd-label" data-i18n="cd_mins"></div></div>
+          <div class="cd-block"><div class="cd-num" id="cd-secs" style="color:var(--accent2)">00</div><div class="cd-label" data-i18n="cd_secs"></div></div>
         </div>
         <div class="cd-actions">
-          <button class="cd-btn primary" onclick="openModal()" id="hero_btn_alert">🔔 오픈 알림 받기</button>
-          <button class="cd-btn secondary" onclick="openSiteNow('https://tickets.interpark.com')" id="hero_btn_open">지금 사이트 열기 →</button>
+          <button class="cd-btn primary" onclick="openModal()" data-i18n="cd_btn_alert"></button>
+          <button class="cd-btn secondary" onclick="openSiteNow('https://tickets.interpark.com')" data-i18n="cd_btn_open"></button>
         </div>
       </div>
     </div>
@@ -249,31 +223,9 @@
   <div class="hero-ticker"><div class="ticker-track" id="tickerTrack"></div></div>
 </section>
 
-<section class="section" id="countdown">
-  <div class="section-label">COUNTDOWN</div>
-  <h2 class="section-title" data-i18n="cd_title"></h2>
-  <div class="countdown-card">
-    <div class="concert-info">
-      <div class="concert-badge">D-DAY</div>
-      <div>
-        <div class="concert-name" data-i18n="cd_concert_name"></div>
-        <div class="concert-site" data-i18n="cd_concert_site"></div>
-      </div>
-    </div>
-    <div class="countdown-display">
-      <div class="cd-block"><div class="cd-num" id="cd-days">00</div><div class="cd-label" data-i18n="cd_days"></div></div>
-      <div class="cd-block"><div class="cd-num" id="cd-hours">00</div><div class="cd-label" data-i18n="cd_hours"></div></div>
-      <div class="cd-block"><div class="cd-num" id="cd-mins">00</div><div class="cd-label" data-i18n="cd_mins"></div></div>
-      <div class="cd-block"><div class="cd-num" id="cd-secs" style="color:var(--accent2)">00</div><div class="cd-label" data-i18n="cd_secs"></div></div>
-    </div>
-    <div class="cd-actions">
-      <button class="cd-btn primary" onclick="openModal()" data-i18n="cd_btn_alert"></button>
-      <button class="cd-btn secondary" onclick="openSiteNow('https://tickets.interpark.com')" data-i18n="cd_btn_open"></button>
-    </div>
-  </div>
-</section>
+<section class="section" id="countdown" style="display:none;"></section>
 
-<section class="section" id="features" style="padding-top:0;">
+<section class="section" id="features">
   <div class="section-label">FEATURES</div>
   <h2 class="section-title" data-i18n="feat_title"></h2>
   <div class="features-grid" id="featuresGrid"></div>
@@ -347,11 +299,11 @@
 <script>
 const i18n = {
   ko: {
-    nav_countdown:'카운트다운', nav_features:'기능', nav_sites:'사이트 공략', nav_community:'커뮤니티', nav_teams:'팀 모집', nav_difficulty:'난이도', nav_schedule:'일정', nav_dday:'D-day 루틴', nav_tips:'꿀팁', nav_cta:'무료 시작',
+    nav_cta:'무료 시작',
     hero_tag:'K-POP 티켓팅 도우미',
     hero_sub:'GD, BTS, 아이유… 극악의 티켓팅도 전략이 있으면 달라집니다. 오픈 알림부터 취소표까지, TICKR이 함께합니다.',
     hero_btn1:'지금 시작하기', hero_btn2:'기능 보기',
-    cd_title:'오픈까지\n얼마나 남았나?', cd_concert_name:'GD 월드투어 서울', cd_concert_site:'인터파크 티켓 · 오픈 예정',
+    cd_concert_name:'GD 월드투어 서울', cd_concert_site:'인터파크 티켓 · 오픈 예정',
     cd_days:'일', cd_hours:'시', cd_mins:'분', cd_secs:'초',
     cd_btn_alert:'🔔 오픈 알림 받기', cd_btn_open:'지금 사이트 열기 →',
     feat_title:'이런 기능들로\n성공률을 높여요',
@@ -361,7 +313,6 @@ const i18n = {
     form_site_label:'선호 티켓 사이트',
     form_contact_label:'알림 받을 연락처', form_contact_placeholder:'이메일 또는 전화번호',
     form_submit:'🔔 알림 등록하기', form_success:'✅ 등록 완료!',
-    form_cancellation_label:'취소표 발생 시에도 알림 받기',
     form_sites:['모든 사이트','인터파크','YES24','멜론티켓','네이버','위버스샵'],
     sites_title:'사이트별\n공략 가이드', feed_title:'실시간\n성공/실패 피드',
     community_btn:'💜 티켓팅 후기 커뮤니티 →',
@@ -377,6 +328,7 @@ const i18n = {
       {icon:'📈',title:'공연별 난이도 지수',desc:'과거 데이터 기반으로 이 공연이 얼마나 어려운지 미리 확인.',tag:'분석',hot:false,url:'difficulty.html'},
       {icon:'📋',title:'멀티 사이트 일정 통합',desc:'인터파크, YES24, 멜론, 네이버 오픈 일정을 한 화면에.',tag:'정보',hot:false,url:'schedule.html'},
       {icon:'✅',title:'D-day 준비 루틴',desc:'오픈 당일 로그인 확인부터 대기 진입까지 단계별 안내.',tag:'가이드',hot:false,url:'dday.html'},
+      {icon:'💡',title:'꿀팁 모음',desc:'사이트별 검증된 꿀팁을 한곳에. 팬들이 직접 남긴 실전 전략.',tag:'정보',hot:false,url:'tips.html'},
     ],
     sites:[
       {name:'인터파크',diff:'극악',cls:'diff-hard',tip:'대기열 입장 후 새로고침 금지. PC 크롬 권장. 간편결제 미리 등록.',url:'https://tickets.interpark.com',btn:'사이트 열기 →'},
@@ -396,11 +348,11 @@ const i18n = {
     ticker:['🔥 GD 서울 공연 오픈 D-3','✅ 아이유 콘서트 취소표 발생','⚡ BTS 팝업 예매 오픈 임박','🎯 SEVENTEEN 추가 공연 확정','🔔 뉴진스 팬미팅 알림 1,240명','📈 르세라핌 콘서트 난이도: 극악'],
   },
   en: {
-    nav_countdown:'Countdown', nav_features:'Features', nav_sites:'Site Guide', nav_community:'Community', nav_teams:'Team', nav_difficulty:'Difficulty', nav_schedule:'Schedule', nav_dday:'D-day', nav_tips:'Tips', nav_cta:'Get Started',
+    nav_cta:'Get Started',
     hero_tag:'K-POP Ticketing Helper',
-    hero_sub:'GD, BTS, IU… Even the hardest K-pop tickets are beatable with the right strategy. From open alerts to cancellation seats — TICKR has your back.',
+    hero_sub:'GD, BTS, IU… Even the hardest K-pop tickets are beatable with the right strategy. TICKR has your back.',
     hero_btn1:'Start Now', hero_btn2:'See Features',
-    cd_title:'HOW LONG\nUNTIL OPEN?', cd_concert_name:'GD World Tour Seoul', cd_concert_site:'Interpark Tickets · Opening Soon',
+    cd_concert_name:'GD World Tour Seoul', cd_concert_site:'Interpark Tickets · Opening Soon',
     cd_days:'DAYS', cd_hours:'HOURS', cd_mins:'MINS', cd_secs:'SECS',
     cd_btn_alert:'🔔 Get Open Alert', cd_btn_open:'Open Site Now →',
     feat_title:'FEATURES TO\nBOOST YOUR ODDS',
@@ -410,7 +362,6 @@ const i18n = {
     form_site_label:'Preferred Ticket Site',
     form_contact_label:'Your Contact', form_contact_placeholder:'Email or Phone Number',
     form_submit:'🔔 Register Alert', form_success:'✅ Registered!',
-    form_cancellation_label:'Also alert me for cancellation seats',
     form_sites:['All Sites','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'SITE-BY-SITE\nSTRATEGY GUIDE', feed_title:'LIVE\nSUCCESS / FAIL FEED',
     community_btn:'💜 Go to Review Community →',
@@ -419,47 +370,47 @@ const i18n = {
     footer_badge:'No Bots · 100% Legal',
     modal_title:'Coming Soon', modal_desc:"TICKR is a prototype under development. We'll notify you first when the real service launches!", modal_close:'Close',
     features:[
-      {icon:'🔔',title:'Multi-Stage Open Alerts',desc:'Get notified D-1, 1hr, 10min, and 1min before open — never miss the moment.',tag:'HOT',hot:true},
-      {icon:'⏱',title:'Live Countdown Timer',desc:'One-tap to the ticket page right at open time. No fumbling when seconds count.',tag:'CORE',hot:false},
-      {icon:'🎯',title:'Seat Preference Settings',desc:'Save your preferred zone, tier, and seat count. Matching seats highlighted instantly.',tag:'HANDY',hot:false},
-      {icon:'🤝',title:'Team Ticketing Finder',desc:'Team up with fans targeting the same show. More attempts = higher success.',tag:'COMMUNITY',hot:false},
-      {icon:'📈',title:'Concert Difficulty Index',desc:'Know how hard a show will be before you try. Based on real historical data.',tag:'ANALYTICS',hot:false,url:'difficulty.html'},
-      {icon:'📋',title:'Multi-Site Schedule Hub',desc:'Interpark, YES24, Melon, Naver — all open schedules in one place.',tag:'INFO',hot:false,url:'schedule.html'},
-      {icon:'✅',title:'D-Day Preparation Guide',desc:'Step-by-step from morning: login check → payment prep → queue entry.',tag:'GUIDE',hot:false,url:'dday.html'},
+      {icon:'🔔',title:'Multi-Stage Open Alerts',desc:'Get notified D-1, 1hr, 10min, and 1min before open.',tag:'HOT',hot:true},
+      {icon:'⏱',title:'Live Countdown Timer',desc:'One-tap to the ticket page right at open time.',tag:'CORE',hot:false},
+      {icon:'🎯',title:'Seat Preference Settings',desc:'Save your preferred zone, tier, and seat count.',tag:'HANDY',hot:false},
+      {icon:'🤝',title:'Team Ticketing Finder',desc:'Team up with fans targeting the same show.',tag:'COMMUNITY',hot:false,url:'teams.html'},
+      {icon:'📈',title:'Concert Difficulty Index',desc:'Know how hard a show will be before you try.',tag:'ANALYTICS',hot:false,url:'difficulty.html'},
+      {icon:'📋',title:'Multi-Site Schedule Hub',desc:'Interpark, YES24, Melon, Naver — all in one place.',tag:'INFO',hot:false,url:'schedule.html'},
+      {icon:'✅',title:'D-Day Preparation Guide',desc:'Step-by-step: login check → payment prep → queue entry.',tag:'GUIDE',hot:false,url:'dday.html'},
+      {icon:'💡',title:'Tips Collection',desc:'Verified tips from real fans, organized by site.',tag:'INFO',hot:false,url:'tips.html'},
     ],
     sites:[
       {name:'Interpark',diff:'Extreme',cls:'diff-hard',tip:'Never refresh after queue entry. Use PC Chrome. Pre-register quick payment.',url:'https://tickets.interpark.com',btn:'Open Site →'},
       {name:'YES24',diff:'Hard',cls:'diff-hard',tip:'Mobile app can be slower than PC. Confirm you are logged in before open.',url:'https://ticket.yes24.com',btn:'Open Site →'},
       {name:'Melon Ticket',diff:'Medium',cls:'diff-med',tip:'Install Melon app and stay logged in. Open the app 10 min before sale.',url:'https://ticket.melon.com',btn:'Open Site →'},
-      {name:'Naver',diff:'Medium',cls:'diff-med',tip:'Top up Naver Pay in advance. PC browser is more stable than the app.',url:'https://booking.naver.com',btn:'Open Site →'},
+      {name:'Naver',diff:'Medium',cls:'diff-med',tip:'Top up Naver Pay in advance. PC browser is more stable.',url:'https://booking.naver.com',btn:'Open Site →'},
       {name:'TicketLink',diff:'Easier',cls:'diff-easy',tip:'Queue is relatively stable. Still need quick fingers for popular shows.',url:'https://www.ticketlink.co.kr',btn:'Open Site →'},
-      {name:'Weverse Shop',diff:'Extreme',cls:'diff-hard',tip:'Exclusive to HYBE artists like BTS & SEVENTEEN. Keep the app updated.',url:'https://shop.weverse.io',btn:'Open Site →'},
+      {name:'Weverse Shop',diff:'Extreme',cls:'diff-hard',tip:'Exclusive to HYBE artists. Keep the app updated.',url:'https://shop.weverse.io',btn:'Open Site →'},
     ],
     feed:[
       {type:'success',text:'Got 2 R-seats for GD Seoul on Interpark!! Payment done in 3 seconds 🎉',meta:'2 min ago · Anon'},
       {type:'fail',text:'Stuck in YES24 queue forever... failed. Will try team ticketing next time',meta:'11 min ago · Anon'},
-      {type:'tip',text:'💡 Tip: Pressing F5 on Interpark 30 sec before open can kick you out. Just wait!',meta:'23 min ago · Anon'},
+      {type:'tip',text:'💡 Pressing F5 on Interpark 30 sec before open can kick you out. Just wait!',meta:'23 min ago · Anon'},
       {type:'success',text:'Got the cancellation alert and grabbed IU S-seat!! It appeared at 11:40am',meta:'1 hr ago · Anon'},
-      {type:'tip',text:'💡 Tip: PC Chrome incognito mode seems faster. Clear cache beforehand.',meta:'2 hrs ago · Anon'},
+      {type:'tip',text:'💡 PC Chrome incognito mode seems faster. Clear cache beforehand.',meta:'2 hrs ago · Anon'},
     ],
     ticker:['🔥 GD Seoul Open D-3','✅ IU Concert cancellation available','⚡ BTS popup tickets opening soon','🎯 SEVENTEEN added extra show','🔔 1,240 alerts set for NewJeans fanmeet','📈 LE SSERAFIM difficulty: EXTREME'],
   },
   zh: {
-    nav_countdown:'倒计时', nav_features:'功能', nav_sites:'网站攻略', nav_community:'社区', nav_teams:'组队', nav_difficulty:'难度', nav_schedule:'日程', nav_dday:'D-day', nav_tips:'攻略', nav_cta:'免费开始',
+    nav_cta:'免费开始',
     hero_tag:'K-POP 购票助手',
-    hero_sub:'GD、BTS、IU… 再难抢的票，有了策略也会不同。从开票提醒到退票捡漏，TICKR 全程陪你。',
+    hero_sub:'GD、BTS、IU… 再难抢的票，有了策略也会不同。TICKR 全程陪你。',
     hero_btn1:'立即开始', hero_btn2:'查看功能',
-    cd_title:'距开票\n还有多久？', cd_concert_name:'GD 世界巡演 首尔站', cd_concert_site:'Interpark · 即将开票',
+    cd_concert_name:'GD 世界巡演 首尔站', cd_concert_site:'Interpark · 即将开票',
     cd_days:'天', cd_hours:'时', cd_mins:'分', cd_secs:'秒',
     cd_btn_alert:'🔔 开票提醒', cd_btn_open:'立即打开网站 →',
     feat_title:'这些功能\n提高购票成功率',
     alert_title:'错过就后悔\n的演唱会，\n马上提醒我',
-    alert_desc:'登记想看的演唱会，\n开票的瞬间我们立即通知你。',
+    alert_desc:'登记想看的演唱会，开票的瞬间我们立即通知你。',
     form_artist_label:'艺人或演出名称', form_artist_placeholder:'例：GD、BTS、IU演唱会',
     form_site_label:'偏好购票网站',
     form_contact_label:'接收提醒的联系方式', form_contact_placeholder:'邮箱或手机号',
     form_submit:'🔔 登记提醒', form_success:'✅ 登记成功！',
-    form_cancellation_label:'退票出现时也通知我',
     form_sites:['全部网站','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'各大网站\n购票攻略', feed_title:'实时\n成功/失败 动态',
     community_btn:'💜 前往后记社区 →',
@@ -468,47 +419,47 @@ const i18n = {
     footer_badge:'不使用自动化机器人 · 100% 合法',
     modal_title:'敬请期待', modal_desc:'TICKR 目前是开发中的原型。正式服务上线时，我们会第一时间通知您！', modal_close:'关闭',
     features:[
-      {icon:'🔔',title:'多阶段开票提醒',desc:'提前1天、1小时、10分钟、1分钟分别提醒，绝对不错过开票时刻。',tag:'热门',hot:true},
-      {icon:'⏱',title:'实时倒计时',desc:'开票时一键跳转购票页面，不用手动切换窗口浪费时间。',tag:'基础',hot:false},
-      {icon:'🎯',title:'座位偏好设置',desc:'提前保存心仪区域、票档和连座数量，符合条件时立即提示。',tag:'实用',hot:false},
-      {icon:'🤝',title:'拼团抢票组队',desc:'和同样想看这场的人组队。多人同时抢，成功率更高！',tag:'社区',hot:false},
-      {icon:'📈',title:'演出难度指数',desc:'根据历史数据预判抢票难度，提前制定最优策略。',tag:'分析',hot:false,url:'difficulty.html'},
-      {icon:'📋',title:'多平台日程整合',desc:'Interpark、YES24、Melon、Naver 等所有平台一屏查看。',tag:'信息',hot:false,url:'schedule.html'},
-      {icon:'✅',title:'当天备战清单',desc:'开票当天逐步引导：登录确认 → 支付检查 → 进入排队。',tag:'攻略',hot:false,url:'dday.html'},
+      {icon:'🔔',title:'多阶段开票提醒',desc:'提前1天、1小时、10分钟、1分钟分别提醒。',tag:'热门',hot:true},
+      {icon:'⏱',title:'实时倒计时',desc:'开票时一键跳转购票页面。',tag:'基础',hot:false},
+      {icon:'🎯',title:'座位偏好设置',desc:'提前保存心仪区域、票档和连座数量。',tag:'实用',hot:false},
+      {icon:'🤝',title:'拼团抢票组队',desc:'和同样想看这场的人组队。多人同时抢，成功率更高！',tag:'社区',hot:false,url:'teams.html'},
+      {icon:'📈',title:'演出难度指数',desc:'根据历史数据预判抢票难度。',tag:'分析',hot:false,url:'difficulty.html'},
+      {icon:'📋',title:'多平台日程整合',desc:'所有平台一屏查看。',tag:'信息',hot:false,url:'schedule.html'},
+      {icon:'✅',title:'当天备战清单',desc:'开票当天逐步引导。',tag:'攻略',hot:false,url:'dday.html'},
+      {icon:'💡',title:'攻略汇总',desc:'粉丝验证的购票技巧大全。',tag:'信息',hot:false,url:'tips.html'},
     ],
     sites:[
       {name:'Interpark',diff:'极难',cls:'diff-hard',tip:'进入排队后切勿刷新。推荐PC Chrome。提前绑定快捷支付。',url:'https://tickets.interpark.com',btn:'打开网站 →'},
       {name:'YES24',diff:'较难',cls:'diff-hard',tip:'手机App可能比PC慢。开票前务必确认已登录。',url:'https://ticket.yes24.com',btn:'打开网站 →'},
-      {name:'Melon Ticket',diff:'普通',cls:'diff-med',tip:'提前安装Melon App并保持登录。开票前10分钟打开App。',url:'https://ticket.melon.com',btn:'打开网站 →'},
-      {name:'Naver',diff:'普通',cls:'diff-med',tip:'建议提前充值Naver Pay。PC浏览器比App更稳定。',url:'https://booking.naver.com',btn:'打开网站 →'},
+      {name:'Melon Ticket',diff:'普通',cls:'diff-med',tip:'提前安装Melon App并保持登录。',url:'https://ticket.melon.com',btn:'打开网站 →'},
+      {name:'Naver',diff:'普通',cls:'diff-med',tip:'建议提前充值Naver Pay。',url:'https://booking.naver.com',btn:'打开网站 →'},
       {name:'TicketLink',diff:'较易',cls:'diff-easy',tip:'排队相对稳定，热门演出仍需手速。',url:'https://www.ticketlink.co.kr',btn:'打开网站 →'},
-      {name:'Weverse Shop',diff:'极难',cls:'diff-hard',tip:'BTS、SEVENTEEN等HYBE艺人专属。务必保持App最新版本。',url:'https://shop.weverse.io',btn:'打开网站 →'},
+      {name:'Weverse Shop',diff:'极难',cls:'diff-hard',tip:'HYBE艺人专属。务必保持App最新版本。',url:'https://shop.weverse.io',btn:'打开网站 →'},
     ],
     feed:[
       {type:'success',text:'在Interpark抢到GD首尔R区2张！开票3秒内完成支付 🎉',meta:'2分钟前 · 匿名'},
       {type:'fail',text:'YES24无限排队...最终失败...下次试试拼团抢票',meta:'11分钟前 · 匿名'},
-      {type:'tip',text:'💡 提示：Interpark开票前30秒按F5反而会被踢出，老实等着就好！',meta:'23分钟前 · 匿名'},
+      {type:'tip',text:'💡 Interpark开票前30秒按F5反而会被踢出，老实等着就好！',meta:'23分钟前 · 匿名'},
       {type:'success',text:'收到退票提醒，抢到IU演唱会S区！上午11:40突然出现的',meta:'1小时前 · 匿名'},
-      {type:'tip',text:'💡 提示：PC Chrome无痕模式速度更快，提前清理缓存',meta:'2小时前 · 匿名'},
+      {type:'tip',text:'💡 PC Chrome无痕模式速度更快，提前清理缓存',meta:'2小时前 · 匿名'},
     ],
     ticker:['🔥 GD首尔演唱会开票倒计时D-3','✅ IU演唱会退票出现','⚡ BTS快闪票即将开票','🎯 SEVENTEEN追加场次确认','🔔 NewJeans粉丝见面会提醒登记1240人','📈 LE SSERAFIM演唱会难度：极难'],
   },
   zhtw: {
-    nav_countdown:'倒數計時', nav_features:'功能', nav_sites:'網站攻略', nav_community:'社群', nav_teams:'組隊', nav_difficulty:'難度', nav_schedule:'日程', nav_dday:'D-day', nav_tips:'攻略', nav_cta:'免費開始',
+    nav_cta:'免費開始',
     hero_tag:'K-POP 購票助手',
-    hero_sub:'GD、BTS、IU… 再難搶的票，有了策略也會不同。從開票提醒到退票撿漏，TICKR 全程陪你。',
+    hero_sub:'GD、BTS、IU… 再難搶的票，有了策略也會不同。TICKR 全程陪你。',
     hero_btn1:'立即開始', hero_btn2:'查看功能',
-    cd_title:'距開票\n還有多久？', cd_concert_name:'GD 世界巡演 首爾站', cd_concert_site:'Interpark · 即將開票',
+    cd_concert_name:'GD 世界巡演 首爾站', cd_concert_site:'Interpark · 即將開票',
     cd_days:'天', cd_hours:'時', cd_mins:'分', cd_secs:'秒',
     cd_btn_alert:'🔔 開票提醒', cd_btn_open:'立即開啟網站 →',
     feat_title:'這些功能\n提高購票成功率',
     alert_title:'錯過就後悔\n的演唱會，\n馬上提醒我',
-    alert_desc:'登記想看的演唱會，\n開票的瞬間我們立即通知你。',
+    alert_desc:'登記想看的演唱會，開票的瞬間我們立即通知你。',
     form_artist_label:'藝人或演出名稱', form_artist_placeholder:'例：GD、BTS、IU演唱會',
     form_site_label:'偏好購票網站',
     form_contact_label:'接收提醒的聯絡方式', form_contact_placeholder:'電子郵件或手機號碼',
     form_submit:'🔔 登記提醒', form_success:'✅ 登記成功！',
-    form_cancellation_label:'退票出現時也通知我',
     form_sites:['全部網站','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'各大網站\n購票攻略', feed_title:'即時\n成功/失敗 動態',
     community_btn:'💜 前往評價社群 →',
@@ -517,28 +468,29 @@ const i18n = {
     footer_badge:'不使用自動化機器人 · 100% 合法',
     modal_title:'敬請期待', modal_desc:'TICKR 目前是開發中的原型。正式服務上線時，我們會第一時間通知您！', modal_close:'關閉',
     features:[
-      {icon:'🔔',title:'多階段開票提醒',desc:'提前1天、1小時、10分鐘、1分鐘分別提醒，絕對不錯過開票時刻。',tag:'熱門',hot:true},
-      {icon:'⏱',title:'即時倒數計時',desc:'開票時一鍵跳轉購票頁面，不用手動切換視窗浪費時間。',tag:'基礎',hot:false},
-      {icon:'🎯',title:'座位偏好設定',desc:'提前儲存心儀區域、票種和連座數量，符合條件時立即提示。',tag:'實用',hot:false},
-      {icon:'🤝',title:'拼團搶票組隊',desc:'和同樣想看這場的人組隊。多人同時搶，成功率更高！',tag:'社群',hot:false},
-      {icon:'📈',title:'演出難度指數',desc:'根據歷史資料預判搶票難度，提前制定最佳策略。',tag:'分析',hot:false,url:'difficulty.html'},
-      {icon:'📋',title:'多平台日程整合',desc:'Interpark、YES24、Melon、Naver 等所有平台一覽無遺。',tag:'資訊',hot:false,url:'schedule.html'},
-      {icon:'✅',title:'當天備戰清單',desc:'開票當天逐步引導：登入確認 → 付款檢查 → 進入排隊。',tag:'攻略',hot:false,url:'dday.html'},
+      {icon:'🔔',title:'多階段開票提醒',desc:'提前1天、1小時、10分鐘、1分鐘分別提醒。',tag:'熱門',hot:true},
+      {icon:'⏱',title:'即時倒數計時',desc:'開票時一鍵跳轉購票頁面。',tag:'基礎',hot:false},
+      {icon:'🎯',title:'座位偏好設定',desc:'提前儲存心儀區域、票種和連座數量。',tag:'實用',hot:false},
+      {icon:'🤝',title:'拼團搶票組隊',desc:'和同樣想看這場的人組隊。多人同時搶，成功率更高！',tag:'社群',hot:false,url:'teams.html'},
+      {icon:'📈',title:'演出難度指數',desc:'根據歷史資料預判搶票難度。',tag:'分析',hot:false,url:'difficulty.html'},
+      {icon:'📋',title:'多平台日程整合',desc:'所有平台一覽無遺。',tag:'資訊',hot:false,url:'schedule.html'},
+      {icon:'✅',title:'當天備戰清單',desc:'開票當天逐步引導。',tag:'攻略',hot:false,url:'dday.html'},
+      {icon:'💡',title:'攻略彙總',desc:'粉絲驗證的購票技巧大全。',tag:'資訊',hot:false,url:'tips.html'},
     ],
     sites:[
-      {name:'Interpark',diff:'極難',cls:'diff-hard',tip:'進入排隊後切勿重新整理。建議使用PC Chrome。提前綁定快捷付款。',url:'https://tickets.interpark.com',btn:'開啟網站 →'},
-      {name:'YES24',diff:'較難',cls:'diff-hard',tip:'手機App可能比PC慢。開票前務必確認已登入帳號。',url:'https://ticket.yes24.com',btn:'開啟網站 →'},
-      {name:'Melon Ticket',diff:'普通',cls:'diff-med',tip:'提前安裝Melon App並保持登入。開票前10分鐘開啟App。',url:'https://ticket.melon.com',btn:'開啟網站 →'},
-      {name:'Naver',diff:'普通',cls:'diff-med',tip:'建議提前儲值Naver Pay。PC瀏覽器比App更穩定。',url:'https://booking.naver.com',btn:'開啟網站 →'},
+      {name:'Interpark',diff:'極難',cls:'diff-hard',tip:'進入排隊後切勿重新整理。建議使用PC Chrome。',url:'https://tickets.interpark.com',btn:'開啟網站 →'},
+      {name:'YES24',diff:'較難',cls:'diff-hard',tip:'手機App可能比PC慢。開票前務必確認已登入。',url:'https://ticket.yes24.com',btn:'開啟網站 →'},
+      {name:'Melon Ticket',diff:'普通',cls:'diff-med',tip:'提前安裝Melon App並保持登入。',url:'https://ticket.melon.com',btn:'開啟網站 →'},
+      {name:'Naver',diff:'普通',cls:'diff-med',tip:'建議提前儲值Naver Pay。',url:'https://booking.naver.com',btn:'開啟網站 →'},
       {name:'TicketLink',diff:'較易',cls:'diff-easy',tip:'排隊相對穩定，熱門演出仍需手速。',url:'https://www.ticketlink.co.kr',btn:'開啟網站 →'},
-      {name:'Weverse Shop',diff:'極難',cls:'diff-hard',tip:'BTS、SEVENTEEN等HYBE藝人專屬。務必保持App為最新版本。',url:'https://shop.weverse.io',btn:'開啟網站 →'},
+      {name:'Weverse Shop',diff:'極難',cls:'diff-hard',tip:'HYBE藝人專屬。務必保持App為最新版本。',url:'https://shop.weverse.io',btn:'開啟網站 →'},
     ],
     feed:[
       {type:'success',text:'在Interpark搶到GD首爾R區2張！開票3秒內完成付款 🎉',meta:'2分鐘前 · 匿名'},
       {type:'fail',text:'YES24無限排隊...最終失敗...下次試試拼團搶票',meta:'11分鐘前 · 匿名'},
-      {type:'tip',text:'💡 提示：Interpark開票前30秒按F5反而會被踢出，老實等著就好！',meta:'23分鐘前 · 匿名'},
+      {type:'tip',text:'💡 Interpark開票前30秒按F5反而會被踢出，老實等著就好！',meta:'23分鐘前 · 匿名'},
       {type:'success',text:'收到退票提醒，搶到IU演唱會S區！上午11:40突然出現的',meta:'1小時前 · 匿名'},
-      {type:'tip',text:'💡 提示：PC Chrome無痕模式速度更快，提前清理快取',meta:'2小時前 · 匿名'},
+      {type:'tip',text:'💡 PC Chrome無痕模式速度更快，提前清理快取',meta:'2小時前 · 匿名'},
     ],
     ticker:['🔥 GD首爾演唱會開票倒數D-3','✅ IU演唱會退票出現','⚡ BTS快閃票即將開票','🎯 SEVENTEEN追加場次確認','🔔 NewJeans粉絲見面會提醒登記1240人','📈 LE SSERAFIM演唱會難度：極難'],
   }
@@ -549,7 +501,7 @@ let currentLang = 'ko';
 function setLang(lang) {
   currentLang = lang;
   document.documentElement.lang = lang === 'zhtw' ? 'zh-TW' : lang;
-  document.body.className = lang === 'en' ? 'lang-en' : lang === 'zh' ? 'lang-zh' : lang === 'zhtw' ? 'lang-zhtw' : '';
+  document.body.className = lang==='en'?'lang-en':lang==='zh'?'lang-zh':lang==='zhtw'?'lang-zhtw':'';
   document.querySelectorAll('.lang-btn').forEach((btn,i) => btn.classList.toggle('active', ['ko','en','zh','zhtw'][i] === lang));
   renderAll();
 }
@@ -572,12 +524,12 @@ function renderAll() {
 
 function renderFeatures() {
   document.getElementById('featuresGrid').innerHTML = i18n[currentLang].features.map(f=>`
-    <div class="feature-card" ${f.url ? `onclick="location.href='${f.url}'" style="cursor:pointer"` : ''}>
+    <div class="feature-card" ${f.url?`onclick="location.href='${f.url}'"`:''}>
       <span class="feature-icon">${f.icon}</span>
       <div class="feature-title">${f.title}</div>
       <div class="feature-desc">${f.desc}</div>
       <span class="feature-tag${f.hot?' hot':''}">${f.tag}</span>
-      ${f.url ? `<div style="margin-top:12px;font-size:12px;color:var(--accent);font-weight:500;">바로가기 →</div>` : ''}
+      ${f.url?`<span class="feature-link">바로가기 →</span>`:''}
     </div>`).join('');
 }
 
@@ -614,7 +566,7 @@ function getTargetDate() {
 function updateCountdown() {
   const diff = getTargetDate() - new Date();
   if (diff <= 0) { updateCountdown(); return; }
-  document.getElementById('cd-days').textContent; document.getElementById('cd-days2') && (document.getElementById('cd-days2').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
+  document.getElementById('cd-days').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
   document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
   document.getElementById('cd-mins').textContent  = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
   document.getElementById('cd-secs').textContent  = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
@@ -624,7 +576,6 @@ updateCountdown();
 
 function openModal() { document.getElementById('alert').scrollIntoView({behavior:'smooth'}); }
 function closeModal(e) { if (e.target===document.getElementById('modal')) document.getElementById('modal').classList.remove('active'); }
-function openServiceModal() { document.getElementById('modal').classList.add('active'); }
 function openSiteNow(url) { window.open(url,'_blank'); }
 
 async function showSuccess() {
@@ -633,10 +584,10 @@ async function showSuccess() {
   const artist = document.getElementById('form_artist_input').value;
   const site = document.getElementById('form_site_select').value;
   if (!email || !artist) {
-    alert(currentLang==='ko'?'아티스트와 연락처를 입력해주세요!':currentLang==='zh'?'请填写艺人和联系方式！':currentLang==='zhtw'?'請填寫藝人和聯絡方式！':'Please enter artist and contact!');
+    alert(currentLang==='ko'?'아티스트와 연락처를 입력해주세요!':'Please enter artist and contact!');
     return;
   }
-  btn.textContent = currentLang==='ko'?'등록 중...':currentLang==='zh'?'登记中...':currentLang==='zhtw'?'登記中...':'Sending...';
+  btn.textContent = currentLang==='ko'?'등록 중...':'Sending...';
   btn.style.background = '#aaa'; btn.disabled = true;
   try {
     const res = await fetch('/api/send-alert', {
@@ -657,14 +608,7 @@ async function showSuccess() {
   }
 }
 
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.style.animation='fadeUp .5s ease both'; });
-},{threshold:0.1});
-
 renderAll();
-setTimeout(()=>{
-  document.querySelectorAll('.feature-card,.site-card,.feed-item').forEach(el=>obs.observe(el));
-},100);
 </script>
 </body>
 </html>
