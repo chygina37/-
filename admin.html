@@ -132,6 +132,7 @@
     <div class="tab active" onclick="switchTab('concerts')">공연 관리</div>
     <div class="tab" onclick="switchTab('alerts')">알림 등록자</div>
     <div class="tab" onclick="switchTab('reviews')" id="reviewsTab">후기 승인<span class="tab-badge hidden" id="pendingBadge">0</span></div>
+    <div class="tab" onclick="switchTab('teams')">팀 모집 관리</div>
   </div>
 
   <!-- 공연 관리 탭 -->
@@ -186,6 +187,11 @@
     </div>
   </div>
 
+  <!-- 팀 모집 관리 탭 -->
+  <div class="section" id="teamsSection">
+    <div id="teamsList"></div>
+  </div>
+
   <!-- 후기 승인 탭 -->
   <div class="section" id="reviewsSection">
     <div class="filter-bar">
@@ -227,17 +233,64 @@ function logout() {
 }
 
 function switchTab(tab) {
-  const tabs = ['concerts','alerts','reviews'];
+  const tabs = ['concerts','alerts','reviews','teams'];
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', tabs[i] === tab));
   document.querySelectorAll('.section').forEach((s,i) => s.classList.toggle('active', tabs[i] === tab));
 }
 
 async function loadAll() {
-  await Promise.all([loadConcerts(), loadAlerts(), loadReviews()]);
+  await Promise.all([loadConcerts(), loadAlerts(), loadReviews(), loadTeams()]);
+}
+
+const siteLabels2 = {melon:'멜론',interpark:'인터파크',yes24:'YES24',coupang:'쿠팡',ticketlink:'티켓링크',other:'기타'};
+
+async function loadTeams() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/teams?order=created_at.desc`, {
+    headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
+  });
+  const data = await res.json();
+  const el = document.getElementById('teamsList');
+  if(!data.length) { el.innerHTML = '<div class="empty">등록된 팀이 없습니다.</div>'; return; }
+  el.innerHTML = data.map(t => `
+    <div class="concert-card" style="flex-wrap:wrap;gap:12px;">
+      <div class="concert-info" style="flex:1;min-width:200px;">
+        <h4>
+          ${esc(t.artist_name)} — ${esc(t.concert_name)}
+          <span class="badge ${t.is_open && t.current_members < t.max_members ? 'badge-active' : 'badge-inactive'}">
+            ${t.is_open && t.current_members < t.max_members ? '모집 중' : '마감'}
+          </span>
+        </h4>
+        <p>👥 ${t.current_members}/${t.max_members}명 &nbsp;·&nbsp; 🎟 ${siteLabels2[t.ticketing_site]||t.ticketing_site} &nbsp;·&nbsp; 👤 ${esc(t.leader_nickname)} (${esc(t.leader_email)})</p>
+        ${t.description ? `<p style="margin-top:6px;color:#aaa">${esc(t.description)}</p>` : ''}
+        ${t.kakao_link ? `<p style="margin-top:4px;"><a href="${esc(t.kakao_link)}" target="_blank" style="color:var(--accent);font-size:12px;">카카오 링크 →</a></p>` : ''}
+      </div>
+      <div class="concert-actions">
+        <button class="btn btn-sm btn-outline" onclick="toggleTeam('${t.id}', ${t.is_open})">${t.is_open ? '마감 처리' : '재오픈'}</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteTeam('${t.id}')">삭제</button>
+      </div>
+    </div>`).join('');
+}
+
+async function toggleTeam(id, current) {
+  await fetch(`${SUPABASE_URL}/rest/v1/teams?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal'},
+    body: JSON.stringify({is_open: !current})
+  });
+  loadTeams();
+}
+
+async function deleteTeam(id) {
+  if(!confirm('이 팀을 삭제할까요?')) return;
+  await fetch(`${SUPABASE_URL}/rest/v1/teams?id=eq.${id}`, {
+    method: 'DELETE',
+    headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
+  });
+  loadTeams();
 }
 
 async function loadConcerts() {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/concerts?order=open_time.asc`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/콘서트?order=open_time.asc`, {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
   });
   const data = await res.json();
@@ -259,7 +312,7 @@ async function loadConcerts() {
 }
 
 async function loadAlerts() {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/alerts?order=created_at.desc`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/알림?order=created_at.desc`, {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
   });
   const data = await res.json();
@@ -377,7 +430,7 @@ async function addConcert() {
     ticket_site: document.getElementById('c_site').value,
     ticket_url: document.getElementById('c_url').value,
   };
-  await fetch(`${SUPABASE_URL}/rest/v1/concerts`, {
+  await fetch(`${SUPABASE_URL}/rest/v1/콘서트`, {
     method: 'POST',
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
     body: JSON.stringify(body)
@@ -390,7 +443,7 @@ async function addConcert() {
 }
 
 async function toggleConcert(id, current) {
-  await fetch(`${SUPABASE_URL}/rest/v1/concerts?id=eq.${id}`, {
+  await fetch(`${SUPABASE_URL}/rest/v1/콘서트?id=eq.${id}`, {
     method: 'PATCH',
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ is_active: !current })
@@ -400,7 +453,7 @@ async function toggleConcert(id, current) {
 
 async function deleteConcert(id) {
   if (!confirm('정말 삭제할까요?')) return;
-  await fetch(`${SUPABASE_URL}/rest/v1/concerts?id=eq.${id}`, {
+  await fetch(`${SUPABASE_URL}/rest/v1/콘서트?id=eq.${id}`, {
     method: 'DELETE',
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
   });
