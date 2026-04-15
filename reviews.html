@@ -210,6 +210,7 @@
         <button class="filter-tab active" onclick="filterReviews('all',event)" data-i18n="filter_all">전체</button>
         <button class="filter-tab" onclick="filterReviews('success',event)" data-i18n="filter_success">성공</button>
         <button class="filter-tab" onclick="filterReviews('fail',event)" data-i18n="filter_fail">실패</button>
+        <button class="filter-tab" onclick="filterReviews('top',event)">🏆 TOP</button>
       </div>
     </div>
     <div id="reviewList">
@@ -336,11 +337,13 @@ function renderReviews(){
   let list=reviews;
   if(currentFilter==='success')list=list.filter(r=>r.success);
   if(currentFilter==='fail')list=list.filter(r=>!r.success);
+  if(currentFilter==='top')list=[...reviews].sort((a,b)=>(b.likes||0)-(a.likes||0)).slice(0,10);
   if(!list.length){document.getElementById('reviewList').innerHTML=`<div class="empty-state"><p>${t('empty')}</p></div>`;return;}
   document.getElementById('reviewList').innerHTML=list.map((r,i)=>`
     <div class="review-card" style="animation-delay:${i*0.05}s">
       <div class="card-top">
         <div class="card-meta">
+          ${currentFilter==='top'?`<span class="badge" style="background:${i===0?'rgba(255,215,0,0.2)':i===1?'rgba(192,192,192,0.2)':i===2?'rgba(205,127,50,0.2)':'var(--accent3)'};color:${i===0?'#b8860b':i===1?'#808080':i===2?'#8b4513':'var(--accent)'};font-size:13px;">${i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`}</span>`:''}
           <span class="badge ${r.success?'badge-success':'badge-fail'}">${r.success?t('filter_success'):t('filter_fail')}</span>
           <span class="badge badge-site">${siteLabels[r.ticketing_site]||r.ticketing_site}</span>
           ${r.seat_grade?`<span style="font-size:12px;color:var(--muted)">${esc(r.seat_grade)}</span>`:''}
