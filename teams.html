@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TICKR — 팀 티켓팅 모집</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f7f5; --surface: #ffffff; --border: #e5e2dd; --border2: #d4d0ca;
+    --accent: #ff3c00; --accent-light: rgba(255,60,0,0.08);
+    --text: #1a1814; --text2: #3d3a35; --muted: #8a8680;
+    --gray: #f2f0ec; --success: #166534; --success-bg: #dcfce7;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-weight:300;}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(248,247,245,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;color:var(--text);text-decoration:none;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex;gap:28px;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:400;transition:color .2s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--text);}
+  .nav-right{display:flex;align-items:center;gap:12px;}
+  .lang-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:4px 10px;font-size:12px;border-radius:3px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:.2s;}
+  .lang-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+  .nav-cta{background:var(--accent);color:#fff;border:none;padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);font-family:'Noto Sans KR',sans-serif;transition:background .2s;}
+  .nav-cta:hover{background:#e03000;}
+
+  /* HERO */
+  .hero{padding:60px 48px 48px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(255,60,0,0.06),transparent 70%);pointer-events:none;}
+  .hero-tag{display:inline-block;border:1px solid var(--accent);color:var(--accent);background:var(--accent-light);font-size:11px;letter-spacing:.2em;padding:5px 14px;margin-bottom:20px;text-transform:uppercase;}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,96px);line-height:.95;margin-bottom:20px;}
+  .hero h1 span{color:var(--accent);}
+  .hero p{color:var(--muted);font-size:15px;max-width:500px;line-height:1.7;}
+  .hero-stats{display:flex;gap:40px;margin-top:32px;}
+  .stat-item{display:flex;flex-direction:column;gap:4px;}
+  .stat-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--accent);}
+  .stat-label{font-size:12px;color:var(--muted);}
+
+  /* MAIN */
+  .main{display:grid;grid-template-columns:1fr 380px;max-width:1400px;margin:0 auto;}
+  .teams-section{border-right:1px solid var(--border);}
+  .section-header{display:flex;align-items:center;justify-content:space-between;padding:24px 48px;border-bottom:1px solid var(--border);}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--text);}
+  .filter-tabs{display:flex;gap:6px;}
+  .filter-tab{background:none;border:1px solid var(--border2);color:var(--muted);padding:6px 14px;font-size:12px;font-weight:700;border-radius:3px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:.2s;}
+  .filter-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .filter-tab:hover:not(.active){border-color:var(--text);color:var(--text);}
+
+  /* TEAM CARD */
+  .team-card{padding:28px 48px;border-bottom:1px solid var(--border);transition:background .2s;animation:fadeUp .4s ease both;}
+  .team-card:hover{background:rgba(255,255,255,0.8);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .card-badges{display:flex;gap:6px;flex-wrap:wrap;}
+  .badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:3px;}
+  .badge-open{background:rgba(22,101,52,.1);color:var(--success);}
+  .badge-full{background:rgba(255,60,0,.1);color:var(--accent);}
+  .badge-site{background:var(--accent-light);color:var(--accent);border:1px solid rgba(255,60,0,.2);}
+  .members-bar{display:flex;align-items:center;gap:8px;}
+  .members-count{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--accent);}
+  .members-label{font-size:11px;color:var(--muted);}
+  .card-title{font-size:17px;font-weight:700;margin-bottom:6px;color:var(--text);}
+  .card-artist{font-size:13px;color:var(--accent);font-weight:500;margin-bottom:8px;}
+  .card-desc{font-size:13px;color:var(--muted);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .card-date{font-size:12px;color:var(--muted);margin-top:10px;}
+  .card-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
+  .card-leader{display:flex;align-items:center;gap:8px;}
+  .avatar{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+  .leader-name{font-size:13px;color:var(--text2);font-weight:500;}
+  .join-btn{background:var(--accent);color:#fff;border:none;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);font-family:'Noto Sans KR',sans-serif;transition:background .2s;}
+  .join-btn:hover{background:#e03000;}
+  .join-btn:disabled{background:var(--border2);color:var(--muted);cursor:not-allowed;clip-path:none;border-radius:3px;}
+
+  .loading-state,.empty-state{padding:80px 48px;text-align:center;color:var(--muted);}
+  .loading-spinner{width:28px;height:28px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* FORM PANEL */
+  .form-panel{padding:32px;position:sticky;top:68px;height:calc(100vh - 68px);overflow-y:auto;background:#faf9f7;}
+  .form-panel::-webkit-scrollbar{width:4px;}
+  .form-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+  .form-title{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--text);margin-bottom:4px;}
+  .form-subtitle{color:var(--muted);font-size:13px;margin-bottom:24px;line-height:1.5;}
+  .form-group{margin-bottom:16px;}
+  .form-label{display:block;font-size:11px;font-weight:700;letter-spacing:.8px;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+  .form-input,.form-select,.form-textarea{width:100%;background:#fff;border:1px solid var(--border2);color:var(--text);padding:10px 13px;font-size:14px;border-radius:4px;font-family:'Noto Sans KR',sans-serif;transition:border-color .2s;outline:none;}
+  .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);}
+  .form-input::placeholder,.form-textarea::placeholder{color:#ccc;}
+  .form-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .form-divider{height:1px;background:var(--border);margin:20px 0;}
+  .submit-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;font-size:14px;font-weight:700;border-radius:4px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-top:8px;transition:background .2s,transform .1s;}
+  .submit-btn:hover{background:#e03000;transform:translateY(-1px);}
+  .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .form-notice{font-size:11px;color:var(--muted);margin-top:10px;text-align:center;line-height:1.6;}
+
+  /* JOIN MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.4);align-items:center;justify-content:center;}
+  .modal-overlay.active{display:flex;}
+  .modal{background:#fff;border:1px solid var(--border);padding:36px;max-width:440px;width:90%;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.12);animation:fadeUp .3s ease;}
+  .modal h3{font-family:'Bebas Neue',sans-serif;font-size:24px;margin-bottom:8px;color:var(--text);}
+  .modal-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+  .modal-close-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:10px 20px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-size:13px;border-radius:3px;transition:.2s;}
+  .modal-close-btn:hover{border-color:var(--text);color:var(--text);}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:#fff;border:1px solid var(--border2);color:var(--text);padding:12px 24px;border-radius:50px;font-size:13px;font-weight:600;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 32px rgba(0,0,0,.1);white-space:nowrap;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  .toast.success{border-color:var(--success);color:var(--success);}
+  .toast.error{border-color:var(--accent);color:var(--accent);}
+
+  @media(max-width:900px){
+    .main{grid-template-columns:1fr;}
+    .form-panel{position:static;height:auto;border-top:1px solid var(--border);}
+    .teams-section{border-right:none;}
+    nav{padding:0 20px;}
+    .nav-links{display:none;}
+    .hero{padding:40px 20px;}
+    .team-card{padding:20px;}
+    .section-header{padding:20px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">TICK<span>R</span></a>
+  <ul class="nav-links">
+    <li><a href="/#countdown">카운트다운</a></li>
+    <li><a href="/#features">기능</a></li>
+    <li><a href="/#sites">사이트 공략</a></li>
+    <li><a href="/reviews.html">커뮤니티</a></li>
+    <li><a href="/teams.html" class="active">팀 모집</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('zh')">简体</button>
+    <button class="lang-btn" onclick="setLang('zhtw')">繁體</button>
+    <button class="nav-cta" onclick="location.href='/'">무료 시작</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">🤝 팀 티켓팅</div>
+  <h1>같이 잡자,<br><span>같이 이겨!</span></h1>
+  <p>혼자보다 여럿이 더 강해요. 같은 공연을 노리는 팬들과 팀을 결성해서 성공률을 높여보세요.</p>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num" id="totalTeams">—</span><span class="stat-label">모집 중인 팀</span></div>
+    <div class="stat-item"><span class="stat-num" id="totalMembers">—</span><span class="stat-label">참여 중인 팬</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <!-- 팀 목록 -->
+  <div class="teams-section">
+    <div class="section-header">
+      <span class="section-title">팀 목록</span>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterTeams('all', event)">전체</button>
+        <button class="filter-tab" onclick="filterTeams('open', event)">모집 중</button>
+        <button class="filter-tab" onclick="filterTeams('full', event)">마감</button>
+      </div>
+    </div>
+    <div id="teamsList">
+      <div class="loading-state"><div class="loading-spinner"></div><p>팀 목록을 불러오는 중...</p></div>
+    </div>
+  </div>
+
+  <!-- 팀 만들기 폼 -->
+  <div class="form-panel">
+    <div class="form-title">팀 만들기</div>
+    <div class="form-subtitle">같이 티켓팅할 팀원을 모집해보세요 🎯</div>
+
+    <div class="form-group">
+      <label class="form-label">아티스트 *</label>
+      <input class="form-input" id="t_artist" placeholder="예: BTS, aespa, IVE">
+    </div>
+    <div class="form-group">
+      <label class="form-label">공연명 *</label>
+      <input class="form-input" id="t_concert" placeholder="예: WORLD TOUR 2025 SEOUL">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">티켓팅 사이트 *</label>
+        <select class="form-select" id="t_site">
+          <option value="">선택</option>
+          <option value="melon">멜론티켓</option>
+          <option value="interpark">인터파크</option>
+          <option value="yes24">YES24</option>
+          <option value="coupang">쿠팡플레이</option>
+          <option value="ticketlink">티켓링크</option>
+          <option value="other">기타</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">최대 인원 *</label>
+        <select class="form-select" id="t_max">
+          <option value="2">2명</option>
+          <option value="3">3명</option>
+          <option value="4" selected>4명</option>
+          <option value="5">5명</option>
+          <option value="6">6명</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">티켓팅 날짜</label>
+      <input class="form-input" type="datetime-local" id="t_date">
+    </div>
+    <div class="form-divider"></div>
+    <div class="form-group">
+      <label class="form-label">팀 소개 *</label>
+      <textarea class="form-textarea" id="t_desc" rows="3" placeholder="어떤 팀인지 간단히 소개해주세요. 전략, 조건 등"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">카카오톡 오픈채팅 링크</label>
+      <input class="form-input" id="t_kakao" placeholder="https://open.kakao.com/...">
+    </div>
+    <div class="form-divider"></div>
+    <div class="form-group">
+      <label class="form-label">팀장 닉네임 *</label>
+      <input class="form-input" id="t_nickname" placeholder="예: 아미_서울">
+    </div>
+    <div class="form-group">
+      <label class="form-label">이메일 *</label>
+      <input class="form-input" type="email" id="t_email" placeholder="팀원 신청 알림을 받을 이메일">
+    </div>
+    <button class="submit-btn" onclick="createTeam()">팀 만들기 🤝</button>
+    <p class="form-notice">팀원이 참여하면 이메일로 알려드려요</p>
+  </div>
+</div>
+
+<!-- 참여 모달 -->
+<div class="modal-overlay" id="joinModal" onclick="closeJoinModal(event)">
+  <div class="modal">
+    <h3 id="joinModalTitle">팀 참여하기</h3>
+    <p class="modal-sub" id="joinModalDesc"></p>
+    <div class="form-group">
+      <label class="form-label">닉네임 *</label>
+      <input class="form-input" id="join_nickname" placeholder="예: 에스파팬_부산">
+    </div>
+    <div class="form-group">
+      <label class="form-label">이메일</label>
+      <input class="form-input" id="join_email" placeholder="연락받을 이메일 (선택)">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="submit-btn" style="margin-top:0" onclick="joinTeam()">참여하기</button>
+      <button class="modal-close-btn" onclick="document.getElementById('joinModal').classList.remove('active')">취소</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://tugudltjvkmlsnxsxfxk.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_jyrfna8HsUOO8bMOB2hVag_JFN6AbLb';
+
+let teams = [];
+let currentFilter = 'all';
+let selectedTeamId = null;
+
+const siteLabels = {melon:'멜론',interpark:'인터파크',yes24:'YES24',coupang:'쿠팡',ticketlink:'티켓링크',other:'기타'};
+
+async function loadTeams() {
+  document.getElementById('teamsList').innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><p>팀 목록을 불러오는 중...</p></div>';
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/teams?order=created_at.desc`, {
+      headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
+    });
+    teams = await res.json();
+    updateStats();
+    renderTeams();
+  } catch(e) {
+    document.getElementById('teamsList').innerHTML = '<div class="empty-state"><p>팀 목록을 불러올 수 없어요.</p></div>';
+  }
+}
+
+function updateStats() {
+  const open = teams.filter(t => t.is_open).length;
+  const members = teams.reduce((sum, t) => sum + (t.current_members || 1), 0);
+  document.getElementById('totalTeams').textContent = open;
+  document.getElementById('totalMembers').textContent = members;
+}
+
+function filterTeams(filter, e) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  if(e) e.target.classList.add('active');
+  renderTeams();
+}
+
+function renderTeams() {
+  let list = teams;
+  if(currentFilter === 'open') list = list.filter(t => t.is_open && t.current_members < t.max_members);
+  if(currentFilter === 'full') list = list.filter(t => !t.is_open || t.current_members >= t.max_members);
+
+  if(!list.length) {
+    document.getElementById('teamsList').innerHTML = '<div class="empty-state"><p>아직 팀이 없어요. 첫 번째 팀을 만들어보세요! 🤝</p></div>';
+    return;
+  }
+
+  document.getElementById('teamsList').innerHTML = list.map((t, i) => {
+    const isFull = t.current_members >= t.max_members || !t.is_open;
+    return `
+    <div class="team-card" style="animation-delay:${i*0.05}s">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="badge ${isFull ? 'badge-full' : 'badge-open'}">${isFull ? '🔴 마감' : '🟢 모집 중'}</span>
+          <span class="badge badge-site">${siteLabels[t.ticketing_site] || t.ticketing_site}</span>
+        </div>
+        <div class="members-bar">
+          <span class="members-count">${t.current_members}/${t.max_members}</span>
+          <span class="members-label">명</span>
+        </div>
+      </div>
+      <div class="card-artist">🎤 ${esc(t.artist_name)}</div>
+      <div class="card-title">${esc(t.concert_name)}</div>
+      <div class="card-desc">${esc(t.description || '')}</div>
+      ${t.ticketing_date ? `<div class="card-date">📅 티켓팅: ${fmtDate(t.ticketing_date)}</div>` : ''}
+      <div class="card-bottom">
+        <div class="card-leader">
+          <div class="avatar">${(t.leader_nickname||'?')[0].toUpperCase()}</div>
+          <span class="leader-name">${esc(t.leader_nickname)}</span>
+        </div>
+        <button class="join-btn" ${isFull ? 'disabled' : ''} onclick="openJoinModal('${t.id}', '${esc(t.concert_name)}', '${esc(t.artist_name)}')">
+          ${isFull ? '마감' : '참여하기 →'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openJoinModal(id, concert, artist) {
+  selectedTeamId = id;
+  document.getElementById('joinModalTitle').textContent = '팀 참여하기';
+  document.getElementById('joinModalDesc').textContent = `${artist} - ${concert} 팀에 참여합니다.`;
+  document.getElementById('join_nickname').value = '';
+  document.getElementById('join_email').value = '';
+  document.getElementById('joinModal').classList.add('active');
+}
+
+function closeJoinModal(e) {
+  if(e.target === document.getElementById('joinModal')) document.getElementById('joinModal').classList.remove('active');
+}
+
+async function joinTeam() {
+  const nickname = document.getElementById('join_nickname').value.trim();
+  if(!nickname) { showToast('닉네임을 입력해주세요!', 'error'); return; }
+
+  const team = teams.find(t => t.id === selectedTeamId);
+  if(!team) return;
+
+  await fetch(`${SUPABASE_URL}/rest/v1/teams?id=eq.${selectedTeamId}`, {
+    method: 'PATCH',
+    headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal'},
+    body: JSON.stringify({ current_members: (team.current_members || 1) + 1 })
+  });
+
+  document.getElementById('joinModal').classList.remove('active');
+  showToast('✅ 팀 참여 완료! 팀장에게 연락해보세요.', 'success');
+  loadTeams();
+}
+
+async function createTeam() {
+  const artist = document.getElementById('t_artist').value.trim();
+  const concert = document.getElementById('t_concert').value.trim();
+  const site = document.getElementById('t_site').value;
+  const desc = document.getElementById('t_desc').value.trim();
+  const nickname = document.getElementById('t_nickname').value.trim();
+  const email = document.getElementById('t_email').value.trim();
+
+  if(!artist || !concert || !site || !desc || !nickname || !email) {
+    showToast('필수 항목을 모두 입력해주세요.', 'error'); return;
+  }
+
+  const btn = document.querySelector('.submit-btn');
+  btn.disabled = true; btn.textContent = '생성 중...';
+
+  const dateVal = document.getElementById('t_date').value;
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/teams`, {
+      method: 'POST',
+      headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal'},
+      body: JSON.stringify({
+        artist_name: artist,
+        concert_name: concert,
+        ticketing_site: site,
+        max_members: parseInt(document.getElementById('t_max').value),
+        current_members: 1,
+        description: desc,
+        kakao_link: document.getElementById('t_kakao').value.trim() || null,
+        leader_nickname: nickname,
+        leader_email: email,
+        ticketing_date: dateVal ? new Date(dateVal).toISOString() : null,
+        is_open: true
+      })
+    });
+
+    if(res.ok) {
+      showToast('✅ 팀이 만들어졌어요!', 'success');
+      ['t_artist','t_concert','t_desc','t_kakao','t_nickname','t_email','t_date'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('t_site').value = '';
+      document.getElementById('t_max').value = '4';
+      loadTeams();
+    } else {
+      showToast('오류가 발생했어요. 다시 시도해주세요.', 'error');
+    }
+  } catch(e) {
+    showToast('서버 오류가 발생했어요.', 'error');
+  }
+
+  btn.disabled = false; btn.textContent = '팀 만들기 🤝';
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtDate(iso){if(!iso)return'';const d=new Date(iso);return`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
+
+let toastTimer;
+function showToast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.includes(
+    lang==='ko'?'한국어':lang==='en'?'EN':lang==='zh'?'简体':'繁體'
+  )));
+}
+
+loadTeams();
+</script>
+</body>
+</html>
