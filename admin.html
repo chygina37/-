@@ -13,11 +13,10 @@
   .logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.08em;}
   .logo span{color:var(--accent);}
   .admin-badge{background:var(--accent);font-size:11px;padding:3px 10px;letter-spacing:.1em;}
-  .container{max-width:900px;margin:0 auto;padding:100px 24px 60px;}
+  .container{max-width:960px;margin:0 auto;padding:100px 24px 60px;}
   h1{font-family:'Bebas Neue',sans-serif;font-size:48px;margin-bottom:8px;}
   .subtitle{color:var(--muted);font-size:14px;margin-bottom:40px;}
 
-  /* 로그인 */
   .login-box{background:var(--card);border:1px solid var(--border);padding:40px;max-width:400px;margin:0 auto;}
   .login-box h2{font-size:20px;font-weight:500;margin-bottom:24px;}
   .form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
@@ -28,26 +27,26 @@
   .btn{background:var(--accent);color:var(--white);border:none;padding:14px 28px;font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s;width:100%;}
   .btn:hover{background:#e03000;}
   .btn-sm{width:auto;padding:8px 16px;font-size:12px;}
+  .btn-success{background:#166534;}
+  .btn-success:hover{background:#15803d;}
   .btn-danger{background:#7f1d1d;}
   .btn-danger:hover{background:#991b1b;}
   .btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted);}
   .btn-outline:hover{border-color:var(--white);color:var(--white);}
 
-  /* 관리자 대시보드 */
   .hidden{display:none;}
   .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:32px;}
-  .tab{padding:12px 24px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:.2s;}
+  .tab{padding:12px 24px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:.2s;position:relative;}
   .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab-badge{position:absolute;top:8px;right:6px;background:var(--accent);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;min-width:16px;text-align:center;}
   .section{display:none;}
   .section.active{display:block;}
 
-  /* 공연 추가 폼 */
   .add-form{background:var(--card);border:1px solid var(--border);padding:32px;margin-bottom:32px;}
   .add-form h3{font-size:16px;font-weight:500;margin-bottom:24px;}
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .form-grid .full{grid-column:1/-1;}
 
-  /* 공연 목록 */
   .concert-list{display:flex;flex-direction:column;gap:12px;}
   .concert-card{background:var(--card);border:1px solid var(--border);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
   .concert-info h4{font-size:15px;font-weight:500;margin-bottom:4px;}
@@ -56,19 +55,44 @@
   .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:2px;margin-left:8px;}
   .badge-active{background:rgba(64,208,112,.15);color:#40d070;}
   .badge-inactive{background:rgba(255,60,0,.15);color:#ff6040;}
+  .badge-pending{background:rgba(255,204,0,.15);color:#ffcc00;}
 
-  /* 알림 등록자 목록 */
   .alert-list{display:flex;flex-direction:column;gap:1px;background:var(--border);}
   .alert-item{background:var(--card);padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:16px;align-items:center;font-size:13px;}
   .alert-header{background:var(--gray);padding:12px 20px;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:16px;font-size:11px;color:var(--muted);letter-spacing:.05em;}
 
+  /* 후기 카드 */
+  .review-card{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:12px;animation:fadeUp .3s ease both;}
+  .review-card.pending{border-color:#444;}
+  .review-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+  .review-badges{display:flex;gap:6px;flex-wrap:wrap;}
+  .rbadge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;}
+  .rbadge-success{background:rgba(64,208,112,.15);color:#40d070;}
+  .rbadge-fail{background:rgba(255,60,0,.15);color:#ff6040;}
+  .rbadge-site{background:rgba(255,60,0,.08);color:var(--accent);border:1px solid rgba(255,60,0,.2);}
+  .rbadge-pending{background:rgba(255,204,0,.12);color:#ffcc00;}
+  .rbadge-approved{background:rgba(64,208,112,.12);color:#40d070;}
+  .stars{color:var(--accent);font-size:13px;letter-spacing:1px;}
+  .review-title{font-size:16px;font-weight:500;margin-bottom:8px;}
+  .review-content{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:8px;}
+  .review-tips{font-size:12px;color:#ccc;background:rgba(255,60,0,.06);border-left:3px solid var(--accent);padding:8px 12px;margin-bottom:12px;line-height:1.6;}
+  .review-tips strong{color:var(--accent);}
+  .review-meta{font-size:12px;color:#555;margin-bottom:14px;}
+  .review-actions{display:flex;gap:8px;}
+
+  .filter-bar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+  .filter-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:.2s;border-radius:2px;}
+  .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
   .empty{text-align:center;padding:40px;color:var(--muted);font-size:14px;}
   .success-msg{background:rgba(64,208,112,.1);border:1px solid rgba(64,208,112,.3);color:#40d070;padding:12px 16px;font-size:13px;margin-bottom:16px;}
   .error-msg{background:rgba(255,60,0,.1);border:1px solid rgba(255,60,0,.3);color:#ff6040;padding:12px 16px;font-size:13px;margin-bottom:16px;}
-  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
   .stat-card{background:var(--card);border:1px solid var(--border);padding:24px;text-align:center;}
   .stat-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--accent);}
   .stat-label{font-size:12px;color:var(--muted);margin-top:4px;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -79,7 +103,7 @@
   <button class="btn btn-sm btn-outline" id="logoutBtn" onclick="logout()" style="display:none">로그아웃</button>
 </nav>
 
-<!-- 로그인 화면 -->
+<!-- 로그인 -->
 <div class="container" id="loginSection">
   <div class="login-box">
     <h2>관리자 로그인</h2>
@@ -95,17 +119,19 @@
 <!-- 관리자 대시보드 -->
 <div class="container hidden" id="adminSection">
   <h1>관리자 대시보드</h1>
-  <p class="subtitle">공연 정보와 알림 등록자를 관리하세요</p>
+  <p class="subtitle">공연, 알림, 후기를 관리하세요</p>
 
   <div class="stat-grid">
     <div class="stat-card"><div class="stat-num" id="statConcerts">0</div><div class="stat-label">등록된 공연</div></div>
     <div class="stat-card"><div class="stat-num" id="statAlerts">0</div><div class="stat-label">알림 등록자</div></div>
     <div class="stat-card"><div class="stat-num" id="statActive">0</div><div class="stat-label">활성 공연</div></div>
+    <div class="stat-card"><div class="stat-num" id="statPending" style="color:#ffcc00">0</div><div class="stat-label">승인 대기 후기</div></div>
   </div>
 
   <div class="tabs">
     <div class="tab active" onclick="switchTab('concerts')">공연 관리</div>
     <div class="tab" onclick="switchTab('alerts')">알림 등록자</div>
+    <div class="tab" onclick="switchTab('reviews')" id="reviewsTab">후기 승인<span class="tab-badge hidden" id="pendingBadge">0</span></div>
   </div>
 
   <!-- 공연 관리 탭 -->
@@ -145,7 +171,6 @@
       </div>
       <button class="btn btn-sm" onclick="addConcert()">공연 추가하기</button>
     </div>
-
     <div class="concert-list" id="concertList">
       <div class="empty">공연을 추가해보세요!</div>
     </div>
@@ -154,14 +179,21 @@
   <!-- 알림 등록자 탭 -->
   <div class="section" id="alertsSection">
     <div class="alert-header">
-      <span>이메일</span>
-      <span>아티스트</span>
-      <span>사이트</span>
-      <span>등록일</span>
+      <span>이메일</span><span>아티스트</span><span>사이트</span><span>등록일</span>
     </div>
     <div class="alert-list" id="alertList">
       <div class="empty">알림 등록자가 없습니다.</div>
     </div>
+  </div>
+
+  <!-- 후기 승인 탭 -->
+  <div class="section" id="reviewsSection">
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterReviews('pending', event)">⏳ 승인 대기</button>
+      <button class="filter-btn" onclick="filterReviews('approved', event)">✅ 승인됨</button>
+      <button class="filter-btn" onclick="filterReviews('all', event)">전체</button>
+    </div>
+    <div id="reviewsList"></div>
   </div>
 </div>
 
@@ -169,6 +201,11 @@
 const SUPABASE_URL = 'https://tugudltjvkmlsnxsxfxk.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_jyrfna8HsUOO8bMOB2hVag_JFN6AbLb';
 const ADMIN_PASSWORD = '1918';
+
+const siteLabels = {melon:'멜론',interpark:'인터파크',yes24:'YES24',coupang:'쿠팡',ticketlink:'티켓링크',other:'기타'};
+
+let allReviews = [];
+let currentFilter = 'pending';
 
 function login() {
   const pw = document.getElementById('adminPassword').value;
@@ -190,27 +227,13 @@ function logout() {
 }
 
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['concerts','alerts'][i] === tab));
-  document.querySelectorAll('.section').forEach((s,i) => s.classList.toggle('active', ['concerts','alerts'][i] === tab));
-}
-
-async function supabase(method, table, body) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
-    method,
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': `Bearer ${SUPABASE_KEY}`,
-      'Content-Type': 'application/json',
-      'Prefer': method === 'POST' ? 'return=representation' : ''
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
-  return res.json();
+  const tabs = ['concerts','alerts','reviews'];
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', tabs[i] === tab));
+  document.querySelectorAll('.section').forEach((s,i) => s.classList.toggle('active', tabs[i] === tab));
 }
 
 async function loadAll() {
-  await loadConcerts();
-  await loadAlerts();
+  await Promise.all([loadConcerts(), loadAlerts(), loadReviews()]);
 }
 
 async function loadConcerts() {
@@ -252,6 +275,95 @@ async function loadAlerts() {
     </div>`).join('');
 }
 
+async function loadReviews() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/reviews?order=created_at.desc`, {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  allReviews = await res.json();
+  const pending = allReviews.filter(r => !r.is_approved).length;
+  document.getElementById('statPending').textContent = pending;
+  // 뱃지
+  const badge = document.getElementById('pendingBadge');
+  if (pending > 0) { badge.textContent = pending; badge.classList.remove('hidden'); }
+  else { badge.classList.add('hidden'); }
+  renderReviews();
+}
+
+function filterReviews(filter, e) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (e) e.target.classList.add('active');
+  renderReviews();
+}
+
+function starsHtml(n) { return '★'.repeat(n||0)+'☆'.repeat(5-(n||0)); }
+
+function renderReviews() {
+  let list = allReviews;
+  if (currentFilter === 'pending') list = list.filter(r => !r.is_approved);
+  if (currentFilter === 'approved') list = list.filter(r => r.is_approved);
+
+  const el = document.getElementById('reviewsList');
+  if (!list.length) {
+    el.innerHTML = `<div class="empty">${currentFilter==='pending'?'승인 대기 중인 후기가 없어요 🎉':currentFilter==='approved'?'승인된 후기가 없어요.':'후기가 없어요.'}</div>`;
+    return;
+  }
+
+  el.innerHTML = list.map((r,i) => `
+    <div class="review-card ${r.is_approved?'':'pending'}" style="animation-delay:${i*0.04}s">
+      <div class="review-top">
+        <div class="review-badges">
+          <span class="rbadge ${r.success?'rbadge-success':'rbadge-fail'}">${r.success?'✅ 성공':'❌ 실패'}</span>
+          <span class="rbadge rbadge-site">${siteLabels[r.ticketing_site]||r.ticketing_site}</span>
+          ${r.seat_grade?`<span class="rbadge" style="background:#1a1a1a;color:#888">${esc(r.seat_grade)}</span>`:''}
+          <span class="rbadge ${r.is_approved?'rbadge-approved':'rbadge-pending'}">${r.is_approved?'✅ 승인됨':'⏳ 대기중'}</span>
+        </div>
+        <span class="stars">${starsHtml(r.rating)}</span>
+      </div>
+      <div class="review-title">${esc(r.title)}</div>
+      <div class="review-content">${esc(r.content)}</div>
+      ${r.tips?`<div class="review-tips"><strong>💡 TIP</strong> &nbsp;${esc(r.tips)}</div>`:''}
+      <div class="review-meta">
+        👤 ${esc(r.nickname)} &nbsp;·&nbsp; 🎤 ${esc(r.artist_name)} &nbsp;·&nbsp; 🕐 ${fmtDate(r.created_at)}
+        ${r.email?` &nbsp;·&nbsp; ✉️ ${esc(r.email)}`:''}
+      </div>
+      <div class="review-actions">
+        ${!r.is_approved
+          ? `<button class="btn btn-sm btn-success" onclick="approveReview('${r.id}')">✅ 승인하기</button>`
+          : `<button class="btn btn-sm btn-outline" onclick="unapproveReview('${r.id}')">승인 취소</button>`
+        }
+        <button class="btn btn-sm btn-danger" onclick="deleteReview('${r.id}')">🗑 삭제</button>
+      </div>
+    </div>`).join('');
+}
+
+async function approveReview(id) {
+  await fetch(`${SUPABASE_URL}/rest/v1/reviews?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ is_approved: true })
+  });
+  await loadReviews();
+}
+
+async function unapproveReview(id) {
+  await fetch(`${SUPABASE_URL}/rest/v1/reviews?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ is_approved: false })
+  });
+  await loadReviews();
+}
+
+async function deleteReview(id) {
+  if (!confirm('이 후기를 삭제할까요?')) return;
+  await fetch(`${SUPABASE_URL}/rest/v1/reviews?id=eq.${id}`, {
+    method: 'DELETE',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  await loadReviews();
+}
+
 async function addConcert() {
   const artist = document.getElementById('c_artist').value;
   const open_time = document.getElementById('c_open_time').value;
@@ -260,19 +372,19 @@ async function addConcert() {
     return;
   }
   const body = {
-    artist,
-    venue: document.getElementById('c_venue').value,
+    artist, venue: document.getElementById('c_venue').value,
     open_time: new Date(open_time).toISOString(),
     ticket_site: document.getElementById('c_site').value,
     ticket_url: document.getElementById('c_url').value,
   };
-  await supabase('POST', 'concerts', body);
+  await fetch(`${SUPABASE_URL}/rest/v1/concerts`, {
+    method: 'POST',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify(body)
+  });
   document.getElementById('concertMsg').innerHTML = '<div class="success-msg">✅ 공연이 추가됐어요!</div>';
-  document.getElementById('c_artist').value = '';
-  document.getElementById('c_venue').value = '';
-  document.getElementById('c_open_time').value = '';
-  document.getElementById('c_site').value = '';
-  document.getElementById('c_url').value = '';
+  ['c_artist','c_venue','c_open_time','c_url'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('c_site').value='';
   setTimeout(()=>document.getElementById('concertMsg').innerHTML='', 3000);
   loadConcerts();
 }
@@ -294,6 +406,9 @@ async function deleteConcert(id) {
   });
   loadConcerts();
 }
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtDate(iso){if(!iso)return'';const d=new Date(iso);return`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;}
 </script>
 </body>
 </html>
