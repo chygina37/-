@@ -12,14 +12,15 @@
     --text: #1a1814; --text2: #3d3a35; --muted: #8a8680; --gray: #f2f0ec;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  body{padding-top:60px;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-weight:300;}
+  body{padding-top:64px;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-weight:300;}
 
-  nav{position:fixed;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;background:rgba(248,247,245,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(248,247,245,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);}
   .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;color:var(--text);text-decoration:none;}
   .logo span{color:var(--accent);}
-  .nav-links{display:flex;gap:14px;list-style:none;}
-  .nav-links a{color:var(--muted);text-decoration:none;font-size:11px;font-weight:400;transition:color .2s;}
+  .nav-links{display:flex;gap:20px;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:12px;font-weight:400;transition:color .2s;}
   .nav-links a:hover,.nav-links a.active{color:var(--text);}
+  .lang-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:4px 8px;font-size:11px;border-radius:3px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:.2s;}.lang-btn:hover{border-color:var(--accent);color:var(--accent);}
   .nav-cta{background:var(--accent);color:#fff;border:none;padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);font-family:'Noto Sans KR',sans-serif;transition:background .2s;}
   .nav-cta:hover{background:#e03000;}
 
@@ -96,7 +97,11 @@
     <li><a href="/dday.html">D-day 루틴</a></li>
     <li><a href="/tips.html" class="active">꿀팁</a></li>
   </ul>
-  <div class="nav-right">
+  <div class="nav-right" style="display:flex;align-items:center;gap:6px;">
+    <button class="lang-btn" onclick="location.href=location.href">한국어</button>
+    <button class="lang-btn" onclick="location.href=location.href">EN</button>
+    <button class="lang-btn" onclick="location.href=location.href">简体</button>
+    <button class="lang-btn" onclick="location.href=location.href">繁體</button>
     <button class="nav-cta" onclick="location.href='/'">무료 시작</button>
   </div>
 </nav>
