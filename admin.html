@@ -180,7 +180,7 @@
   <!-- 알림 등록자 탭 -->
   <div class="section" id="alertsSection">
     <div class="alert-header">
-      <span>이메일</span><span>아티스트</span><span>사이트</span><span>등록일</span>
+      <span>이메일</span><span>아티스트</span><span>알림 시점</span><span>등록일</span>
     </div>
     <div class="alert-list" id="alertList">
       <div class="empty">알림 등록자가 없습니다.</div>
@@ -319,13 +319,20 @@ async function loadAlerts() {
   document.getElementById('statAlerts').textContent = data.length || 0;
   const list = document.getElementById('alertList');
   if (!data.length) { list.innerHTML = '<div class="empty">알림 등록자가 없습니다.</div>'; return; }
-  list.innerHTML = data.map(a => `
+  list.innerHTML = data.map(a => {
+    const times = [];
+    if(a.notify_dday1) times.push('D-1');
+    if(a.notify_1hour) times.push('1시간전');
+    if(a.notify_10min) times.push('10분전');
+    if(a.notify_morning) times.push('당일아침');
+    return `
     <div class="alert-item">
       <span>${a.email}</span>
       <span>${a.artist}</span>
-      <span>${a.site||'전체'}</span>
+      <span style="font-size:11px;color:var(--accent)">${times.length ? times.join(' · ') : a.site||'전체'}</span>
       <span style="color:var(--muted);font-size:12px">${new Date(a.created_at).toLocaleDateString('ko-KR')}</span>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 async function loadReviews() {
