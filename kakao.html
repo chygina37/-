@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TICKR — 카카오 채널</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f7f5; --surface: #ffffff; --border: #e5e2dd; --border2: #d4d0ca;
+    --accent: #ff3c00; --accent-light: rgba(255,60,0,0.08);
+    --kakao: #FEE500; --kakao-dark: #3C1E1E;
+    --text: #1a1814; --text2: #3d3a35; --muted: #8a8680; --gray: #f2f0ec;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-weight:300;}
+
+  nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(248,247,245,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;color:var(--text);text-decoration:none;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex;gap:28px;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:400;transition:color .2s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--text);}
+  .nav-cta{background:var(--accent);color:#fff;border:none;padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);font-family:'Noto Sans KR',sans-serif;transition:background .2s;}
+  .nav-cta:hover{background:#e03000;}
+
+  /* 히어로 */
+  .hero{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 48px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(254,229,0,0.15),transparent 70%);pointer-events:none;}
+  .kakao-icon{width:80px;height:80px;background:var(--kakao);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 32px;box-shadow:0 8px 32px rgba(254,229,0,0.4);animation:bounce .6s ease both;}
+  @keyframes bounce{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+  .hero-tag{display:inline-block;border:1px solid var(--kakao-dark);color:var(--kakao-dark);background:rgba(254,229,0,0.2);font-size:11px;letter-spacing:.2em;padding:5px 14px;margin-bottom:20px;text-transform:uppercase;border-radius:20px;}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,80px);line-height:.95;margin-bottom:20px;}
+  .hero h1 span{color:var(--accent);}
+  .hero p{color:var(--muted);font-size:16px;max-width:480px;line-height:1.8;margin:0 auto 40px;}
+
+  .kakao-btn{display:inline-flex;align-items:center;gap:12px;background:var(--kakao);color:var(--kakao-dark);padding:18px 36px;font-size:16px;font-weight:700;border-radius:12px;text-decoration:none;box-shadow:0 6px 24px rgba(254,229,0,0.4);transition:all .2s;font-family:'Noto Sans KR',sans-serif;}
+  .kakao-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(254,229,0,0.5);}
+  .kakao-btn-icon{font-size:22px;}
+
+  /* 혜택 섹션 */
+  .benefits{max-width:900px;margin:0 auto;padding:60px 48px;}
+  .benefits-title{font-family:'Bebas Neue',sans-serif;font-size:36px;text-align:center;margin-bottom:40px;}
+  .benefits-title span{color:var(--accent);}
+  .benefits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+  .benefit-card{background:var(--surface);border:1px solid var(--border);padding:28px;border-radius:4px;text-align:center;transition:box-shadow .2s;}
+  .benefit-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.06);}
+  .benefit-icon{font-size:36px;margin-bottom:16px;}
+  .benefit-title{font-size:16px;font-weight:700;margin-bottom:8px;}
+  .benefit-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+
+  /* 사용법 */
+  .howto{background:var(--gray);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:60px 48px;}
+  .howto-inner{max-width:700px;margin:0 auto;}
+  .howto-title{font-family:'Bebas Neue',sans-serif;font-size:36px;text-align:center;margin-bottom:40px;}
+  .steps{display:flex;flex-direction:column;gap:16px;}
+  .step{display:flex;align-items:flex-start;gap:20px;background:var(--surface);border:1px solid var(--border);padding:20px 24px;border-radius:4px;}
+  .step-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--accent);line-height:1;flex-shrink:0;width:32px;}
+  .step-text h4{font-size:15px;font-weight:700;margin-bottom:4px;}
+  .step-text p{font-size:13px;color:var(--muted);line-height:1.6;}
+
+  .cta-bottom{text-align:center;padding:60px 48px;}
+  .cta-bottom p{color:var(--muted);font-size:14px;margin-bottom:24px;line-height:1.7;}
+
+  @media(max-width:768px){
+    nav{padding:0 20px;}
+    .nav-links{display:none;}
+    .hero{padding:60px 20px;}
+    .benefits{padding:40px 20px;}
+    .howto{padding:40px 20px;}
+    .cta-bottom{padding:40px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">TICK<span>R</span></a>
+  <ul class="nav-links">
+    <li><a href="/#countdown">카운트다운</a></li>
+    <li><a href="/#features">기능</a></li>
+    <li><a href="/reviews.html">커뮤니티</a></li>
+    <li><a href="/teams.html">팀 모집</a></li>
+    <li><a href="/difficulty.html">난이도</a></li>
+    <li><a href="/schedule.html">일정</a></li>
+    <li><a href="/dday.html">D-day 루틴</a></li>
+    <li><a href="/tips.html">꿀팁</a></li>
+    <li><a href="/kakao.html" class="active">카카오</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cta" onclick="location.href='/'">무료 시작</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="kakao-icon">💬</div>
+  <div class="hero-tag">카카오 채널</div>
+  <h1>티켓팅 소식,<br><span>카카오로 받자!</span></h1>
+  <p>TICKR 카카오 채널을 추가하면 공연 오픈 소식, 취소표 정보, 꿀팁을 카카오톡으로 바로 받을 수 있어요.</p>
+  <a href="http://pf.kakao.com/_xcxmVCX" target="_blank" class="kakao-btn">
+    <span class="kakao-btn-icon">💬</span>
+    카카오 채널 추가하기
+  </a>
+</div>
+
+<div class="benefits">
+  <div class="benefits-title">채널 추가하면 <span>이런 게 좋아요</span></div>
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">🔔</div>
+      <div class="benefit-title">공연 오픈 알림</div>
+      <div class="benefit-desc">티켓팅 오픈 전날, 1시간 전, 오픈 당일 알림을 카카오톡으로 받아요.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🎫</div>
+      <div class="benefit-title">취소표 소식</div>
+      <div class="benefit-desc">팬들이 제보한 취소표 정보를 가장 빠르게 받아볼 수 있어요.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">💡</div>
+      <div class="benefit-title">티켓팅 꿀팁</div>
+      <div class="benefit-desc">성공한 팬들의 검증된 전략과 꿀팁을 정기적으로 공유해요.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📢</div>
+      <div class="benefit-title">긴급 공지</div>
+      <div class="benefit-desc">갑작스러운 추가 공연, 일정 변경 등 긴급 소식을 바로 전달해요.</div>
+    </div>
+  </div>
+</div>
+
+<div class="howto">
+  <div class="howto-inner">
+    <div class="howto-title">채널 추가 방법</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-text">
+          <h4>카카오톡 앱 열기</h4>
+          <p>스마트폰에서 카카오톡 앱을 열어주세요.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-text">
+          <h4>아래 버튼 클릭</h4>
+          <p>아래 "채널 추가하기" 버튼을 누르면 카카오톡으로 자동 연결돼요.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-text">
+          <h4>채널 추가 완료!</h4>
+          <p>추가 후 채팅 탭에서 TICKR 채널을 확인할 수 있어요. 이제 알림을 받을 준비 완료!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-bottom">
+  <p>현재 <strong>TICKR 카카오 채널</strong>을 운영 중이에요.<br>채널 추가하고 K-POP 티켓팅 정보를 가장 빠르게 받아보세요! 🎉</p>
+  <a href="http://pf.kakao.com/_xcxmVCX" target="_blank" class="kakao-btn">
+    <span class="kakao-btn-icon">💬</span>
+    지금 바로 채널 추가
+  </a>
+</div>
+
+</body>
+</html>
