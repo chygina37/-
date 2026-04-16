@@ -252,6 +252,27 @@
         <label class="form-label" data-i18n="form_contact_label"></label>
         <input class="form-input" type="text" id="form_contact_input" data-i18n-ph="form_contact_placeholder">
       </div>
+      <div class="form-row" style="flex-direction:column;gap:10px;margin-top:4px">
+        <label class="form-label" style="font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:500;">알림 시점 선택</label>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;">
+            <input type="checkbox" id="notify_dday1" checked style="width:15px;height:15px;accent-color:var(--accent);">
+            D-1 (하루 전)
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;">
+            <input type="checkbox" id="notify_1hour" checked style="width:15px;height:15px;accent-color:var(--accent);">
+            1시간 전
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;">
+            <input type="checkbox" id="notify_10min" checked style="width:15px;height:15px;accent-color:var(--accent);">
+            10분 전
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;">
+            <input type="checkbox" id="notify_morning" style="width:15px;height:15px;accent-color:var(--accent);">
+            당일 아침 9시
+          </label>
+        </div>
+      </div>
       <button class="form-submit" id="formSubmitBtn" onclick="showSuccess()"></button>
     </div>
   </div>
@@ -593,7 +614,12 @@ async function showSuccess() {
   try {
     const res = await fetch('/api/send-alert', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ email, artist, site })
+      body: JSON.stringify({ email, artist, site,
+        notify_dday1: document.getElementById('notify_dday1').checked,
+        notify_1hour: document.getElementById('notify_1hour').checked,
+        notify_10min: document.getElementById('notify_10min').checked,
+        notify_morning: document.getElementById('notify_morning').checked
+      })
     });
     const data = await res.json();
     if (data.success) {
