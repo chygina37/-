@@ -140,6 +140,20 @@
     <div class="add-form">
       <h3>새 공연 추가</h3>
       <div id="concertMsg"></div>
+
+      <!-- 템플릿 버튼 -->
+      <div style="margin-bottom:16px;">
+        <label style="font-size:11px;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:8px;">⚡ 빠른 템플릿</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;" id="templateBtns">
+          <button class="btn btn-sm btn-outline" onclick="loadTemplate('interpark')">인터파크</button>
+          <button class="btn btn-sm btn-outline" onclick="loadTemplate('yes24')">YES24</button>
+          <button class="btn btn-sm btn-outline" onclick="loadTemplate('melon')">멜론티켓</button>
+          <button class="btn btn-sm btn-outline" onclick="loadTemplate('weverse')">위버스샵</button>
+          <button class="btn btn-sm" style="background:#2a2a2a;border:1px solid #444" onclick="saveTemplate()">💾 현재 입력 저장</button>
+          <button class="btn btn-sm btn-outline" onclick="loadSavedTemplate()">📂 저장된 템플릿</button>
+        </div>
+      </div>
+
       <div class="form-grid">
         <div class="form-group">
           <label>아티스트 이름 *</label>
@@ -170,7 +184,22 @@
           <input type="text" id="c_url" placeholder="https://tickets.interpark.com/...">
         </div>
       </div>
-      <button class="btn btn-sm" onclick="addConcert()">공연 추가하기</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-sm" onclick="addConcert()">공연 추가하기</button>
+        <button class="btn btn-sm" style="background:#1a3a2a;border:1px solid #2a5a3a" onclick="document.getElementById('csvUpload').click()">📋 CSV 일괄 업로드</button>
+        <input type="file" id="csvUpload" accept=".csv" style="display:none" onchange="handleCSV(event)">
+        <button class="btn btn-sm btn-outline" onclick="downloadCSVTemplate()">⬇️ CSV 양식 다운로드</button>
+      </div>
+
+      <!-- CSV 미리보기 -->
+      <div id="csvPreview" style="display:none;margin-top:16px;">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">📋 업로드 미리보기</div>
+        <div id="csvPreviewContent"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <button class="btn btn-sm btn-success" onclick="bulkAddConcerts()">✅ 전체 추가하기</button>
+          <button class="btn btn-sm btn-outline" onclick="document.getElementById('csvPreview').style.display='none'">취소</button>
+        </div>
+      </div>
     </div>
     <div class="concert-list" id="concertList">
       <div class="empty">공연을 추가해보세요!</div>
@@ -422,6 +451,116 @@ async function deleteReview(id) {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
   });
   await loadReviews();
+}
+
+// 템플릿
+const siteTemplates = {
+  interpark: {site:'인터파크', url:'https://tickets.interpark.com/'},
+  yes24: {site:'YES24', url:'https://ticket.yes24.com/'},
+  melon: {site:'멜론티켓', url:'https://ticket.melon.com/'},
+  weverse: {site:'위버스샵', url:'https://shop.weverse.io/'},
+};
+
+function loadTemplate(key) {
+  const t = siteTemplates[key];
+  if(!t) return;
+  document.getElementById('c_site').value = t.site;
+  document.getElementById('c_url').value = t.url;
+}
+
+function saveTemplate() {
+  const data = {
+    artist: document.getElementById('c_artist').value,
+    venue: document.getElementById('c_venue').value,
+    site: document.getElementById('c_site').value,
+    url: document.getElementById('c_url').value,
+  };
+  localStorage.setItem('tickr_concert_template', JSON.stringify(data));
+  document.getElementById('concertMsg').innerHTML = '<div class="success-msg">💾 템플릿이 저장됐어요!</div>';
+  setTimeout(() => document.getElementById('concertMsg').innerHTML = '', 2000);
+}
+
+function loadSavedTemplate() {
+  const data = JSON.parse(localStorage.getItem('tickr_concert_template') || '{}');
+  if(!data.site) { alert('저장된 템플릿이 없어요!'); return; }
+  if(data.artist) document.getElementById('c_artist').value = data.artist;
+  if(data.venue) document.getElementById('c_venue').value = data.venue;
+  if(data.site) document.getElementById('c_site').value = data.site;
+  if(data.url) document.getElementById('c_url').value = data.url;
+}
+
+// CSV 다운로드
+function downloadCSVTemplate() {
+  const csv = `아티스트,공연장,오픈시간,티켓사이트,URL
+BTS,잠실종합운동장,2025-06-01T20:00,인터파크,https://tickets.interpark.com/
+aespa,KSPO DOME,2025-06-15T20:00,YES24,https://ticket.yes24.com/`;
+  const blob = new Blob(['\uFEFF' + csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'TICKR_공연추가양식.csv';
+  a.click();
+}
+
+// CSV 파싱
+let csvData = [];
+function handleCSV(e) {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const lines = ev.target.result.split('\n').filter(l => l.trim());
+    csvData = [];
+    for(let i = 1; i < lines.length; i++) {
+      const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g,''));
+      if(cols.length < 4 || !cols[0]) continue;
+      csvData.push({
+        artist: cols[0], venue: cols[1]||'',
+        open_time: cols[2]||'', ticket_site: cols[3]||'',
+        ticket_url: cols[4]||''
+      });
+    }
+    if(!csvData.length) { alert('유효한 데이터가 없어요!'); return; }
+    document.getElementById('csvPreviewContent').innerHTML = `
+      <div style="background:var(--card);border:1px solid var(--border);padding:12px;max-height:200px;overflow-y:auto;">
+        ${csvData.map((c,i) => `
+          <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;">
+            <strong>${c.artist}</strong> · ${c.ticket_site} · ${c.open_time}
+          </div>`).join('')}
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px;">총 ${csvData.length}개 공연</div>`;
+    document.getElementById('csvPreview').style.display = 'block';
+  };
+  reader.readAsText(file, 'UTF-8');
+  e.target.value = '';
+}
+
+let bulkAdding = false;
+async function bulkAddConcerts() {
+  if(bulkAdding || !csvData.length) return;
+  bulkAdding = true;
+  const btn = document.querySelector('[onclick="bulkAddConcerts()"]');
+  btn.disabled = true; btn.textContent = '추가 중...';
+  let success = 0;
+  for(const c of csvData) {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/concerts`, {
+        method:'POST',
+        headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
+        body: JSON.stringify({
+          artist: c.artist, venue: c.venue,
+          open_time: c.open_time ? new Date(c.open_time).toISOString() : null,
+          ticket_site: c.ticket_site, ticket_url: c.ticket_url
+        })
+      });
+      if(res.ok) success++;
+    } catch(e) {}
+  }
+  document.getElementById('csvPreview').style.display = 'none';
+  document.getElementById('concertMsg').innerHTML = `<div class="success-msg">✅ ${success}개 공연이 추가됐어요!</div>`;
+  setTimeout(() => document.getElementById('concertMsg').innerHTML = '', 3000);
+  csvData = [];
+  bulkAdding = false;
+  loadConcerts();
 }
 
 async function addConcert() {
