@@ -164,16 +164,16 @@
 <nav>
   <div class="logo">TICK<span>R</span></div>
   <ul class="nav-links">
-    <li><a href="#countdown">카운트다운</a></li>
-    <li><a href="#features">기능</a></li>
-    <li><a href="#sites">사이트 공략</a></li>
-    <li><a href="reviews.html">커뮤니티</a></li>
-    <li><a href="teams.html">팀 모집</a></li>
-    <li><a href="difficulty.html">난이도</a></li>
-    <li><a href="schedule.html">일정</a></li>
-    <li><a href="dday.html">D-day 루틴</a></li>
-    <li><a href="tips.html">꿀팁</a></li>
-    <li><a href="kakao.html">카카오</a></li>
+    <li><a href="#countdown" data-i18n="nav_countdown"></a></li>
+    <li><a href="#features" data-i18n="nav_features"></a></li>
+    <li><a href="#sites" data-i18n="nav_sites"></a></li>
+    <li><a href="reviews.html" data-i18n="nav_community"></a></li>
+    <li><a href="teams.html" data-i18n="nav_teams"></a></li>
+    <li><a href="difficulty.html" data-i18n="nav_difficulty"></a></li>
+    <li><a href="schedule.html" data-i18n="nav_schedule"></a></li>
+    <li><a href="dday.html" data-i18n="nav_dday"></a></li>
+    <li><a href="tips.html" data-i18n="nav_tips"></a></li>
+    <li><a href="kakao.html" data-i18n="nav_kakao"></a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -321,6 +321,9 @@
 <script>
 const i18n = {
   ko: {
+    nav_countdown:'카운트다운', nav_features:'기능', nav_sites:'사이트 공략',
+    nav_community:'커뮤니티', nav_teams:'팀 모집', nav_difficulty:'난이도',
+    nav_schedule:'일정', nav_dday:'D-day 루틴', nav_tips:'꿀팁', nav_kakao:'카카오',
     nav_cta:'무료 시작',
     hero_tag:'K-POP 티켓팅 도우미',
     hero_sub:'GD, BTS, 아이유… 극악의 티켓팅도 전략이 있으면 달라집니다. 오픈 알림부터 취소표까지, TICKR이 함께합니다.',
@@ -372,6 +375,9 @@ const i18n = {
     ticker:['🔥 GD 서울 공연 오픈 D-3','✅ 아이유 콘서트 취소표 발생','⚡ BTS 팝업 예매 오픈 임박','🎯 SEVENTEEN 추가 공연 확정','🔔 뉴진스 팬미팅 알림 1,240명','📈 르세라핌 콘서트 난이도: 극악'],
   },
   en: {
+    nav_countdown:'Countdown', nav_features:'Features', nav_sites:'Site Guide',
+    nav_community:'Community', nav_teams:'Team', nav_difficulty:'Difficulty',
+    nav_schedule:'Schedule', nav_dday:'D-day', nav_tips:'Tips', nav_kakao:'KakaoTalk',
     nav_cta:'Get Started',
     hero_tag:'K-POP Ticketing Helper',
     hero_sub:'GD, BTS, IU… Even the hardest K-pop tickets are beatable with the right strategy. TICKR has your back.',
@@ -423,6 +429,9 @@ const i18n = {
     ticker:['🔥 GD Seoul Open D-3','✅ IU Concert cancellation available','⚡ BTS popup tickets opening soon','🎯 SEVENTEEN added extra show','🔔 1,240 alerts set for NewJeans fanmeet','📈 LE SSERAFIM difficulty: EXTREME'],
   },
   zh: {
+    nav_countdown:'倒计时', nav_features:'功能', nav_sites:'网站攻略',
+    nav_community:'社区', nav_teams:'组队', nav_difficulty:'难度',
+    nav_schedule:'日程', nav_dday:'D-day', nav_tips:'攻略', nav_kakao:'KakaoTalk',
     nav_cta:'免费开始',
     hero_tag:'K-POP 购票助手',
     hero_sub:'GD、BTS、IU… 再难抢的票，有了策略也会不同。TICKR 全程陪你。',
@@ -474,6 +483,9 @@ const i18n = {
     ticker:['🔥 GD首尔演唱会开票倒计时D-3','✅ IU演唱会退票出现','⚡ BTS快闪票即将开票','🎯 SEVENTEEN追加场次确认','🔔 NewJeans粉丝见面会提醒登记1240人','📈 LE SSERAFIM演唱会难度：极难'],
   },
   zhtw: {
+    nav_countdown:'倒數計時', nav_features:'功能', nav_sites:'網站攻略',
+    nav_community:'社群', nav_teams:'組隊', nav_difficulty:'難度',
+    nav_schedule:'日程', nav_dday:'D-day', nav_tips:'攻略', nav_kakao:'KakaoTalk',
     nav_cta:'免費開始',
     hero_tag:'K-POP 購票助手',
     hero_sub:'GD、BTS、IU… 再難搶的票，有了策略也會不同。TICKR 全程陪你。',
@@ -553,13 +565,14 @@ function renderAll() {
 }
 
 function renderFeatures() {
+  const goText = {ko:'바로가기 →', en:'Go →', zh:'前往 →', zhtw:'前往 →'};
   document.getElementById('featuresGrid').innerHTML = i18n[currentLang].features.map(f=>`
-    <div class="feature-card" ${f.url?`onclick="location.href='${f.url}'"`:''}>
+    <div class="feature-card" ${f.url?`onclick="location.href='${f.url}'" style="cursor:pointer"`:''}>
       <span class="feature-icon">${f.icon}</span>
       <div class="feature-title">${f.title}</div>
       <div class="feature-desc">${f.desc}</div>
       <span class="feature-tag${f.hot?' hot':''}">${f.tag}</span>
-      ${f.url?`<span class="feature-link">바로가기 →</span>`:''}
+      ${f.url?`<div style="margin-top:12px;font-size:12px;color:var(--accent);font-weight:500;">${goText[currentLang]||'바로가기 →'}</div>`:''}
     </div>`).join('');
 }
 
