@@ -253,23 +253,23 @@
         <input class="form-input" type="text" id="form_contact_input" data-i18n-ph="form_contact_placeholder">
       </div>
       <div class="form-row" style="flex-direction:column;gap:10px;margin-top:4px">
-        <label class="form-label" style="font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:500;">알림 시점 선택</label>
+        <label class="form-label" style="font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:500;" data-i18n="form_notify_label">알림 시점 선택</label>
         <div style="display:flex;flex-direction:column;gap:8px;">
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;">
             <input type="checkbox" id="notify_dday1" checked style="width:15px;height:15px;accent-color:var(--accent);">
-            D-1 (하루 전)
+            <span data-i18n="form_notify_dday1">D-1 (하루 전)</span>
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;">
             <input type="checkbox" id="notify_1hour" checked style="width:15px;height:15px;accent-color:var(--accent);">
-            1시간 전
+            <span data-i18n="form_notify_1hour">1시간 전</span>
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;">
             <input type="checkbox" id="notify_10min" checked style="width:15px;height:15px;accent-color:var(--accent);">
-            10분 전
+            <span data-i18n="form_notify_10min">10분 전</span>
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;">
             <input type="checkbox" id="notify_morning" style="width:15px;height:15px;accent-color:var(--accent);">
-            당일 아침 9시
+            <span data-i18n="form_notify_morning">당일 아침 9시</span>
           </label>
         </div>
       </div>
@@ -335,6 +335,8 @@ const i18n = {
     form_site_label:'선호 티켓 사이트',
     form_contact_label:'알림 받을 연락처', form_contact_placeholder:'이메일 또는 전화번호',
     form_submit:'🔔 알림 등록하기', form_success:'✅ 등록 완료!',
+    form_notify_label:'알림 시점 선택',
+    form_notify_dday1:'D-1 (하루 전)', form_notify_1hour:'1시간 전', form_notify_10min:'10분 전', form_notify_morning:'당일 아침 9시',
     form_sites:['모든 사이트','인터파크','YES24','멜론티켓','네이버','위버스샵'],
     sites_title:'사이트별\n공략 가이드', feed_title:'실시간\n성공/실패 피드',
     community_btn:'💜 티켓팅 후기 커뮤니티 →',
@@ -384,6 +386,8 @@ const i18n = {
     form_site_label:'Preferred Ticket Site',
     form_contact_label:'Your Contact', form_contact_placeholder:'Email or Phone Number',
     form_submit:'🔔 Register Alert', form_success:'✅ Registered!',
+    form_notify_label:'Alert Timing',
+    form_notify_dday1:'D-1 (Day Before)', form_notify_1hour:'1 Hour Before', form_notify_10min:'10 Min Before', form_notify_morning:'Morning 9AM on Open Day',
     form_sites:['All Sites','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'SITE-BY-SITE\nSTRATEGY GUIDE', feed_title:'LIVE\nSUCCESS / FAIL FEED',
     community_btn:'💜 Go to Review Community →',
@@ -433,6 +437,8 @@ const i18n = {
     form_site_label:'偏好购票网站',
     form_contact_label:'接收提醒的联系方式', form_contact_placeholder:'邮箱或手机号',
     form_submit:'🔔 登记提醒', form_success:'✅ 登记成功！',
+    form_notify_label:'提醒时间选择',
+    form_notify_dday1:'前一天', form_notify_1hour:'1小时前', form_notify_10min:'10分钟前', form_notify_morning:'当天早上9点',
     form_sites:['全部网站','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'各大网站\n购票攻略', feed_title:'实时\n成功/失败 动态',
     community_btn:'💜 前往后记社区 →',
@@ -482,6 +488,8 @@ const i18n = {
     form_site_label:'偏好購票網站',
     form_contact_label:'接收提醒的聯絡方式', form_contact_placeholder:'電子郵件或手機號碼',
     form_submit:'🔔 登記提醒', form_success:'✅ 登記成功！',
+    form_notify_label:'提醒時間選擇',
+    form_notify_dday1:'前一天', form_notify_1hour:'1小時前', form_notify_10min:'10分鐘前', form_notify_morning:'當天早上9點',
     form_sites:['全部網站','Interpark','YES24','Melon Ticket','Naver','Weverse Shop'],
     sites_title:'各大網站\n購票攻略', feed_title:'即時\n成功/失敗 動態',
     community_btn:'💜 前往評價社群 →',
